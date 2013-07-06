@@ -1,0 +1,26 @@
+body{
+
+	width:100%;
+	margin:0px;
+	padding:0px;
+}
+#container{
+margin:0 auto;
+margin-top:40px;
+margin-bottom:40px;
+
+height: auto;
+width: 250px;
+}
+header{
+
+	width:100%;
+	background-color:#ddd;
+	height:40px;
+}
+footer{
+	float:left;
+	width:100%;
+	height:200px;
+	background-color:#ccc;
+}
