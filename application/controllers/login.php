@@ -8,7 +8,6 @@ class Login extends CI_Controller
 	}
 	public function show_login(){
 		$this->load->view('login');
-
 	}
 	public function show_moderator()
 	{
@@ -54,7 +53,6 @@ class Login extends CI_Controller
 			$this->load->model('users_model');
 			if($this->users_model->valja_zapis()){
 				return true;
-
 			}
 			else{
 				$this->form_validation->set_message('proveri_zapise','Wrong username or password');
@@ -64,15 +62,12 @@ class Login extends CI_Controller
 	public function redirecting(){
 		$uloga=$this->session->userdata['uloga'];
 		if($uloga==1){
-
 			$this->load->view('admin');
 		}
 		if($uloga==2){
-
 			$this->show_moderator();
 		}
 		if($uloga==3){
-
 			$this->load->view('korisnik');
 		}
 	}

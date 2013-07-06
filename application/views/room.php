@@ -176,6 +176,48 @@ jQuery(document).ready(function() {
       </tr>
      
     </table>
+    <!-- Actions -->
+    <h3>Actions:</h3>
+
+     <table width="100%" border="0" cellspacing="0" cellpadding="0" class="price">
+      <tr class="border_bottom">
+        <td>Action date:</td>
+        
+        <td><h2>Mini </h2></td>
+        <td><h2>Medium </h2></td>
+        <td><h2>Full </h2></td>
+      </tr>
+      <tr class="even">
+        <td class="right">Action-date 1</td>
+       
+        <td>30$</td>
+        <td>30$</td>
+        <td>30$</td>
+      </tr>
+      <tr>
+        <td class="right">Action-date 2</td>
+        
+        <td>30$</td>
+        <td>30$</td>
+        <td>30$</td>
+      </tr>
+      <tr class="even">
+        <td class="right">Action-date 3</td>
+       
+        <td>30$</td>
+        <td>30$</td>
+        <td>30$</td>
+      </tr>
+      <tr>
+        <td class="right">Action-date 4</td>
+       
+        <td>30$</td>
+        <td>30$</td>
+        <td>30$</td>
+      </tr>
+     
+    </table>
+    <!-- END Actions -->
         </div>
         <div class="tab">
           <h2>Neki tekst neki tekst neki tekst</h2><br>

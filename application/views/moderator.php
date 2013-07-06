@@ -329,11 +329,28 @@ $(document).ready(function(){
 <div class="toggle">
   <h2 class="trigger">+Add room pictures</h2>
   <div class="togglebox">
-    <div><form>
+    <div>
+      <form>
       Room:<br>
       <select><option>room1</option><option>room1</option><option>room1</option></select><br>
       Pictures:<br>
       <input type="file"><br><br>
+      <input type="submit" class="btn btn-info" value="Add picture"></input>
+      <br>
+    </form>
+  </div>
+</div>
+</div>
+<div class="toggle">
+  <h2 class="trigger">+Add hotel actions</h2>
+  <div class="togglebox">
+    <div>
+      <form>
+      Hotel:<br>
+      <select><option>hotel1</option><option>hotel2</option><option>hotel3</option></select><br>
+      Actions:<br>
+      TO DO : OVDE MORAM DA VIDIM KAKO CU AKCIJE
+      
       <input type="submit" class="btn btn-info" value="Add picture"></input>
       <br>
     </form>
