@@ -61,21 +61,21 @@ class Login extends CI_Controller
 				return false;
 			}
 		}
-		public function redirecting(){
-			$uloga=$this->session->userdata['uloga'];
-			if($uloga==1){
+	public function redirecting(){
+		$uloga=$this->session->userdata['uloga'];
+		if($uloga==1){
 
-				$this->load->view('admin');
-			}
-			if($uloga==2){
-
-				$this->show_moderator();
-			}
-			if($uloga==3){
-
-				$this->load->view('korisnik');
-			}
+			$this->load->view('admin');
 		}
+		if($uloga==2){
+
+			$this->show_moderator();
+		}
+		if($uloga==3){
+
+			$this->load->view('korisnik');
+		}
+	}
 
 }
 /* End of file login.php */
