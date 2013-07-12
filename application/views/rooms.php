@@ -169,5 +169,45 @@
 			
 		});
 </script>
+<script type="text/javascript">
+    $('select').change(function(){
+        $.ajax({
+    // the URL for the request
+    url: '<?php echo base_url()."ajax/get_all_rooms" ?>',
+ 
+    // the data to send (will be converted to a query string)
+    data: {
+        id: $('select').val()
+    },
+ 
+    // whether this is a POST or GET request
+    type: "POST",
+ 
+    // the type of data we expect back
+    dataType : "json",
+ 
+    // code to run if the request succeeds;
+    // the response is passed to the function
+    success: function( json ) {
+        // $( "<h1/>" ).text( json.title ).appendTo( "body" );
+        // $( "<div class=\"content\"/>").html( json.html ).appendTo( "body" );
+        $('#gallery').html(json.html);
+        $('#gallerynav li').removeClass('selected-1');
+        $('#gallerynav li:first-child').addClass('selected-1');
+    },
+ 
+    // code to run if the request fails; the raw request and
+    // status codes are passed to the function
+    error: function( xhr, status ) {
+        alert( "Sorry, there was a problem!" );
+    },
+ 
+    // code to run regardless of success or failure
+    complete: function( xhr, status ) {
+        alert( "The request is complete!" );
+    }
+});
+    });
+</script>
 </body>
 </html>

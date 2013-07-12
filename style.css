@@ -131,7 +131,7 @@ body {
 	overflow-x: hidden;
 }
 #dropdown-hotel {
-	margin-top:4px;
+	margin-top:7px;
 }
 html, body {
 	height: 100%;
@@ -914,6 +914,7 @@ table.price td h2 sup {
 /*-----------------------------------------------------------------------------------*/
 /*	10.	PORTFOLIO
 /*-----------------------------------------------------------------------------------*/
+
 
 #portfolio ul li {
 	background: none;
