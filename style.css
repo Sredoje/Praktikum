@@ -25,6 +25,11 @@ Description: HTML Portfolio & Blog
 17.	TOGGLE & TABS
 18.	CAROUSEL
 
+RewriteEngine on
+RewriteBase /sajt
+#RewriteRule .* - [F] 
+RewriteCond $1 !^(index\.php|img|robots\.txt|css|js|fonts|png|gif|style|jpg|contact)
+RewriteRule ^(.*)$ index.php/$1 [L]
 -----------------------------------------------------------------------------------*/
 
 

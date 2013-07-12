@@ -17,6 +17,15 @@ class Ajax extends CI_Controller {
 			echo $red['ime'].",".$red['tekst'];
 		}
 	}
+	public function get_hotel() {
+		$hotel_id=$_POST['id'];
+
+		$this->load->model('hotel_model');
+		$data['hotel']=$this->hotel_model->get_hotel($hotel_id);
+		$data['num_rows']=$this->hotel_model->get_hotel_num_rows();
+		$data['row']=$hotel_id;
+		echo json_encode($data);
+	}
 	
 
 }

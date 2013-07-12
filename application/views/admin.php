@@ -41,7 +41,7 @@ if(!isset($this->session->userdata['uloga'])||$this->session->userdata['uloga']!
               <li><a href="<?php echo base_url();?>">Home</a>
                
               </li>
-              <li><a href="<?php echo base_url();?>main/show_hotels/0">Hotels</a>
+              <li><a href="<?php echo base_url();?>main/show_hotels/">Hotels</a>
                 
               </li>
               <li><a href="<?php echo base_url();?>room/show_rooms/1" >Rooms</a>

@@ -3,8 +3,9 @@
 class Hotel extends CI_Controller 
 {
 
-	public function show_hotels($row)
+	public function show_hotels()
 	{
+		$row=0;
 		$this->load->model('hotel_model');
 		$data['hotel']=$this->hotel_model->get_hotel($row);
 		$data['num_rows']=$this->hotel_model->get_hotel_num_rows();

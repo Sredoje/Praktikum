@@ -34,7 +34,7 @@ text-decoration: underline;
               <li><a href="<?php echo base_url();?>">Home</a>
                
               </li>
-              <li><a href="<?php echo base_url();?>hotel/show_hotels/0" class="selected">Hotels</a>
+              <li><a href="<?php echo base_url();?>hotel/show_hotels/" class="selected">Hotels</a>
                 <ul>
                   <li><a href="blog-1.html">Blog</a></li>
                   <li><a href="blog-2.html">News</a></li>
@@ -87,13 +87,13 @@ text-decoration: underline;
   <!-- Begin Wrapper -->
   <div id="wrapper">
     <div id="portfolio-single">
-      <div class="image"> <img src="<?php 
+      <div class="image"> <img class="hotel_img" src="<?php 
       echo base_url();
       echo "img/".$hotel['slika1'];
       ?>" alt="" width="660px" height="450px"/>  </div>
       <div class="text">
-        <h3><?php echo $hotel['ime'];?></h3>
-        <p><?php echo $hotel['tekst'];?></p>
+        <h3 class="hotel_name"><?php echo $hotel['ime'];?></h3>
+        <p  class="hotel_text"><?php echo $hotel['tekst'];?></p>
 
        <!--  <a id ="acom" href="" text-decoration="">Accommodation</a> -->
        <?php 
@@ -101,30 +101,9 @@ text-decoration: underline;
         echo "<a  id ='acom' href=".base_url()."room/show_rooms/".$id_hotel." text-decoration=''>Accommodation</a>";
         ?>
         <div class="divider3"></div>
-        <?php
-        //stranicenje za 1 unos 
-        $prev_row=$row-1;
-        $next_row=$row+1;
-        if($row==0){
-        }
-        else{
-            echo "<a href=".base_url()."hotel/show_hotels/".$prev_row." class='p-project'>&laquo; Previous Hotel</a>";
-
-        }
-          
-
-         ?> 
-         <a href="<?php 
-         
-         
-            echo base_url()."hotel/show_hotels/".$next_row;
-      
-        
-         ?>" style="<?php
-          if($next_row==$num_rows)
-         { 
-          echo "visibility:hidden;";
-         }?>" class="n-project">Next Hotel &raquo;</a> </div>
+         <p class="p-project" <?php echo "data-id='".$row."' data-rows='".$num_rows."'" ?> style="visibility:hidden">Prev Hotel &raquo;</p> 
+         <p class="n-project" <?php echo "data-id='".$row."' data-rows='".$num_rows."'" ?> >Next Hotel &raquo;</p> 
+       </div>
         
 
     </div>
@@ -185,6 +164,64 @@ text-decoration: underline;
                 };
             });
         });
+</script>
+<script type="text/javascript">
+$('.n-project, .p-project').click(function(e){
+  var hotel_row = $(this).data('id');
+  hotel_row = $(this).hasClass("n-project") == true ? hotel_row += 1 : hotel_row -= 1;
+    $.ajax({
+    // the URL for the request
+    url: '<?php echo base_url()."ajax/get_hotel" ?>',
+ 
+    // the data to send (will be converted to a query string)
+    data: {
+        id: hotel_row
+    },
+ 
+    // whether this is a POST or GET request
+    type: "POST",
+ 
+    // the type of data we expect back
+    dataType : "json",
+ 
+    // code to run if the request succeeds;
+    // the response is passed to the function
+    success: function( json ) {
+        $('.hotel_name').text(json.hotel.ime);
+        $('.hotel_text').text(json.hotel.tekst);
+        var picture = "<?php echo base_url(); ?>img/"+json.hotel.slika1;
+        $('.hotel_img').attr('src',picture);
+        $('.n-project, .p-project').data('id',hotel_row);
+        if (hotel_row > 0) {
+          $('.p-project').css({'visibility':'visible'});
+        }
+        else {
+          $('.p-project').css({'visibility':'hidden'});
+        }
+        if (hotel_row == $('.n-project').data('rows')) {
+          $('.n-project').css({'visibility':'hidden'});
+        }
+        else {
+          $('.n-project').css({'visibility':'visible'});
+        }
+        var acom="<?php echo base_url(); ?>room/show_rooms/"+json.hotel.id_hotel;
+        $('#acom').attr('href',acom);
+        console.log(json.hotel.id_hotel);
+    },
+ 
+    // code to run if the request fails; the raw request and
+    // status codes are passed to the function
+    error: function( xhr, status ) {
+        alert( "Sorry, there was a problem!" );
+    },
+ 
+    // code to run regardless of success or failure
+    complete: function( xhr, status ) {
+        // alert( "The request is complete!" );
+    }
+});
+});
+
 </script>
 </body>
 </html>

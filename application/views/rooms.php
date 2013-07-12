@@ -33,7 +33,7 @@
               <li><a href="<?php echo base_url();?>">Home</a>
                
               </li>
-              <li><a href="<?php echo base_url();?>hotel/show_hotels/0">Hotels</a>
+              <li><a href="<?php echo base_url();?>hotel/show_hotels/">Hotels</a>
                 
               </li>
               <li><a href="<?php echo base_url();?>room/show_room/1" class="selected">Rooms</a>

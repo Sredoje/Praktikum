@@ -56,7 +56,7 @@ $(function() {
               <li><a href="<?php echo base_url();?>" class="selected">Home</a>
                
               </li>
-              <li><a href="<?php echo base_url();?>hotel/show_hotels/0">Hotels</a>
+              <li><a href="<?php echo base_url();?>hotel/show_hotels/">Hotels</a>
                <!--  <ul>
                   <li><a href="blog-1.html">Blog</a></li>
                   <li><a href="blog-2.html">News</a></li>
