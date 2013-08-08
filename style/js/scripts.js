@@ -78,3 +78,41 @@ $(document).ready(function() {
 	});
 
 });
+$(document).ready(function (){
+	$("._statusDDL").val('60');
+	$( '.gallerynav li' ).click( function(){
+		if( $( this ).hasClass('selected-1') ) {
+
+		} else {
+			$('.gallerynav li').each(function(e) {
+				$( this ).removeClass( 'selected-1' );
+			});
+			$( this ).addClass( 'selected-1' );
+		}
+		$clickedItem = $('.gallerynav li.selected-1').children('a').data('value');
+		if ( $clickedItem != "all")  {
+				
+				$('#gallery').find('li').each(function(e) {
+					if(!$(this).hasClass($clickedItem)) {
+						$(this).fadeOut('slow');
+					}
+					something();
+				});
+				function something() {
+					$('#gallery').find('li.'+$clickedItem).fadeIn();
+				}
+				
+				// console.log($('#gallery').find('li.'+$clickedItem));
+
+		}
+		else {
+			$('#gallery').find('li').each(function(e) {
+						$(this).fadeIn('fast');
+				});
+		}
+			
+		
+	
+
+	});
+});

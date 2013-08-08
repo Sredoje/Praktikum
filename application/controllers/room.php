@@ -8,6 +8,7 @@ class Room extends CI_Controller
 		$this->load->model('hotel_model');
 		$data['rooms']=$this->room_model->get_all_rooms_for_hotel($hotel_id);
 		$data['hotels']=$this->hotel_model->all_hotels();
+		$data['hotel_id']=$hotel_id;
 		$this->load->view('rooms',$data);
 	}
 	public function show_room($room_id) {

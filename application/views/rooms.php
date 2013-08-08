@@ -12,7 +12,7 @@
 <script type="text/javascript" src="<?php echo base_url();?>style/js/jquery-1.5.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url();?>style/js/ddsmoothmenu.js"></script>
 <script type="text/javascript" src="<?php echo base_url();?>style/js/quicksand.js"></script>
-<script type="text/javascript" src="<?php echo base_url();?>style/js/portfolio.js"></script>
+
 <script type="text/javascript" src="<?php echo base_url();?>style/js/scripts.js"></script>
 <script type="text/javascript" src="<?php echo base_url();?>style/js/jquery.prettyPhoto.js"></script>
 
@@ -89,7 +89,10 @@
         <li><a href="#" data-value="family">Family room<span></span></a></li>
         <li><a href="#" data-value="senior">Senior Suite<span></span></a></li>
         <li><a href="#" data-value="presidential">Presidential Suite<span></span></a></li>
-        <li id="dropdown-hotel">Hotel:<select>
+       
+      </ul>
+      <ul class="hotel-dropdown">
+         <li id="dropdown-hotel">Hotel:<select class="hotel-select">
           <?php 
           foreach($hotels as $hotel) {
             echo "<option value=".$hotel['id_hotel'].">".$hotel['ime']."</option>";
@@ -112,7 +115,7 @@
           $room_id=$room['room_id'];
           $base_url=base_url();
           $slika=$room['room_picture'];
-          $link="<li data-id='".$brojac."' class='".$category."'><a href='".$base_url."room/show_room/".$room_id."'><img src='".$base_url."img/$slika' alt='' /></a></li>";
+          $link="<li data-id='".$brojac."' class='".$category." php'><a href='".$base_url."room/show_room/".$room_id."'><img src='".$base_url."img/$slika' alt='' /></a></li>";
           $brojac++;
           echo $link;
         } ?>
@@ -166,10 +169,49 @@
 			$("ul.grid img").each(function(i) {
 			  $(this).delay(i * 200).fadeIn();
 			});
-			
+      var test=<?php echo $hotel_id ?>;
+      $('select').val(test);
+        $.ajax({
+    // the URL for the request
+          url: '<?php echo base_url()."ajax/get_all_rooms" ?>',
+       
+          // the data to send (will be converted to a query string)
+          data: {
+              id: $('select').val()
+          },
+       
+          // whether this is a POST or GET request
+          type: "POST",
+       
+          // the type of data we expect back
+          dataType : "json",
+       
+          // code to run if the request succeeds;
+          // the response is passed to the function
+          success: function( json ) {
+              $('#gallery').html(json.html);
+              // $('#gallerynav li').removeClass('selected-1');
+              // $('#gallerynav li:first-child').addClass('selected-1');
+              $('.gallerynav li:first-child').click();
+          },
+       
+          // code to run if the request fails; the raw request and
+          // status codes are passed to the function
+          error: function( xhr, status ) {
+              alert( "Sorry, there was a problem!" );
+          },
+       
+          // code to run regardless of success or failure
+          complete: function( xhr, status ) {
+
+          }
+      });
+
 		});
 </script>
 <script type="text/javascript">
+   
+    
     $('select').change(function(){
         $.ajax({
     // the URL for the request
@@ -189,11 +231,10 @@
     // code to run if the request succeeds;
     // the response is passed to the function
     success: function( json ) {
-        // $( "<h1/>" ).text( json.title ).appendTo( "body" );
-        // $( "<div class=\"content\"/>").html( json.html ).appendTo( "body" );
         $('#gallery').html(json.html);
-        $('#gallerynav li').removeClass('selected-1');
-        $('#gallerynav li:first-child').addClass('selected-1');
+        // $('#gallerynav li').removeClass('selected-1');
+        // $('#gallerynav li:first-child').addClass('selected-1');
+        $('.gallerynav li:first-child').click();
     },
  
     // code to run if the request fails; the raw request and
@@ -204,7 +245,7 @@
  
     // code to run regardless of success or failure
     complete: function( xhr, status ) {
-        alert( "The request is complete!" );
+
     }
 });
     });

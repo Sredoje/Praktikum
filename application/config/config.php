@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://praktikum.dev';
+$config['base_url']	= 'http://localhost/sajt';
 
 /*
 |--------------------------------------------------------------------------

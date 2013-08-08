@@ -996,6 +996,17 @@ ul.gallerynav li.selected-1 a {
 .hidden {
 	display: none;
 }
+#portfolio {
+	position:relative;
+}
+.hotel-dropdown {
+	background:#fff;
+	height:14px;
+	padding:5px;
+	position: absolute;
+	top: 0;
+	right: 50px;
+}
 
 /*-----------------------------------------------------------------------------------*/
 /*	11.	SINGLE PORTFOLIO
