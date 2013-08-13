@@ -9,11 +9,13 @@ class Room extends CI_Controller
 		$data['rooms']=$this->room_model->get_all_rooms_for_hotel($hotel_id);
 		$data['hotels']=$this->hotel_model->all_hotels();
 		$data['hotel_id']=$hotel_id;
+
 		$this->load->view('rooms',$data);
 	}
 	public function show_room($room_id) {
 		$this->load->model('room_model');
 		$data['room']=$this->room_model->get_room_by_id($room_id);
+		$data['room_pictures']=$this->room_model->get_room_pictures($room_id);
 		$this->load->view('room',$data);
 		// $data['room_facilities']=$this->room_model->get_room_facilities();
 		 
@@ -132,6 +134,7 @@ class Room extends CI_Controller
 	//metoda za unos slike sobe
 	function do_upload2()
 	{
+
 		$field_name="room_picture";
 		$config['upload_path'] = './img/';
 		$config['allowed_types'] = 'gif|jpg|png';
@@ -152,6 +155,44 @@ class Room extends CI_Controller
 			$this->load->model('room_model');
 			$this->room_model->unesi_room_sliku($fajl['file_name']);
 			return true;
+		}
+	}
+	function do_upload3(){
+		$room_id=$this->input->post('add_room_pictures');
+		$field_name = "room_pictures";
+		$config['upload_path'] = './img/';
+		$config['allowed_types'] = 'gif|jpg|png';
+		$config['max_size']	= '1000';
+		$config['width']	 = 175;
+		$config['height']	= 120;
+		$this->load->library('upload', $config);
+		if (!$this->upload->do_upload($field_name))
+		{
+
+			$data['hotel_message']="<p>Error uploading room pictures<br></p>";
+			$this->load->model('room_model');
+			$this->load->model('hotel_model');
+			$facilities=$this->edit_serialize_facilities();
+			$this->room_model->edit_room_ceo($this->input->post('edit_room_name'),$this->input->post('edit_room_category'),$this->input->post('edit_room_about'),$this->input->post('edit_room_space'),$this->input->post('edit_room_from'),$this->input->post('edit_room_to'),$this->input->post('edit_room_hotel'),$this->session->userdata['id_usera'],$facilities,$this->input->post('edit_mini_price'),$this->input->post('edit_medium_price'),$this->input->post('edit_full_price'),$this->input->post('edit_room_select'));
+			$data['all_hotels_from_user']=$this->hotel_model->all_hotel_by_user($this->session->userdata['id_usera']);
+			$data['all_rooms_from_user']=$this->room_model->all_rooms_from_user($this->session->userdata['id_usera']);
+			$data['room_category']=$this->room_model->get_room_category();
+			$this->load->view('moderator',$data);
+		}
+		else
+		{
+			$data = array('upload_data' => $this->upload->data());
+			$fajl=$this->upload->data();
+			$this->load->model('room_model');
+			$this->room_model->add_room_pictures($fajl['file_name'],$room_id);
+			$data['hotel_message']="<p>Succesfully added room pictures<br></p>";
+			$this->load->model('hotel_model');
+			$facilities=$this->edit_serialize_facilities();
+			$this->room_model->edit_room_ceo($this->input->post('edit_room_name'),$this->input->post('edit_room_category'),$this->input->post('edit_room_about'),$this->input->post('edit_room_space'),$this->input->post('edit_room_from'),$this->input->post('edit_room_to'),$this->input->post('edit_room_hotel'),$this->session->userdata['id_usera'],$facilities,$this->input->post('edit_mini_price'),$this->input->post('edit_medium_price'),$this->input->post('edit_full_price'),$this->input->post('edit_room_select'));
+			$data['all_hotels_from_user']=$this->hotel_model->all_hotel_by_user($this->session->userdata['id_usera']);
+			$data['all_rooms_from_user']=$this->room_model->all_rooms_from_user($this->session->userdata['id_usera']);
+			$data['room_category']=$this->room_model->get_room_category();
+			$this->load->view('moderator',$data);
 		}
 	}
 

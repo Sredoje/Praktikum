@@ -335,11 +335,17 @@ $(document).ready(function(){
   <h2 class="trigger">+Add room pictures</h2>
   <div class="togglebox">
     <div>
-      <form>
-      Room:<br>
-      <select><option>room1</option><option>room1</option><option>room1</option></select><br>
-      Pictures:<br>
-      <input type="file"><br><br>
+      <form method="post" action="<?php echo base_url() ?>room/do_upload3" enctype="multipart/form-data">
+       <select id="add_room_pictures" name="add_room_pictures">
+              <?php 
+              foreach ($all_rooms_from_user as $room) {
+                $room_name=$room['room_name'];
+                 echo "<option value=".$room['room_id'].">$room_name</option>";
+              }
+               ?>
+      </select>
+      <br><br>
+      <input type="file" name="room_pictures"><br><br>
       <input type="submit" class="btn btn-info" value="Add picture"></input>
       <br>
     </form>

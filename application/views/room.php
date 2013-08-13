@@ -107,6 +107,7 @@ jQuery(document).ready(function() {
   <!-- Begin Wrapper -->
 
   <div id="wrapper">
+          
     <div class="tab-wrapper">
       <ul id="tab-menu">
         <li class="selected"><img src="<?php echo base_url();?>style/images/icon-palette.png" alt="" />About room</li>
@@ -248,38 +249,20 @@ jQuery(document).ready(function() {
     <div class="clear"></div>
     <div class="d-carousel sgrid" >
       <ul class="carousel">
-        <li> 
-          <!-- Begin Full Size Link and Description --> 
-          <a href="#" title=""> <img src="<?php echo base_url();?>style/images/art/carousel-9.jpg" alt="" /><!-- Image Thumbnail --> 
-          </a> </li>
-        <li> 
-          <!-- Begin Full Size Link and Description --> 
-          <a href="#" title=""> <img src="<?php echo base_url();?>style/images/art/carousel-10.jpg" alt="" /><!-- Image Thumbnail --> 
-          </a> </li>
-        <li> 
-          <!-- Begin Full Size Link and Description --> 
-          <a href="#" title=""> <img src="<?php echo base_url();?>style/images/art/carousel-11.jpg" alt="" /><!-- Image Thumbnail --> 
-          </a> </li>
-        <li> 
-          <!-- Begin Full Size Link and Description --> 
-          <a href="#" title=""> <img src="<?php echo base_url();?>style/images/art/carousel-12.jpg" alt="" /><!-- Image Thumbnail --> 
-          </a> </li>
-        <li> 
-          <!-- Begin Full Size Link and Description --> 
-          <a href="#" title=""> <img src="<?php echo base_url();?>style/images/art/carousel-13.jpg" alt="" /><!-- Image Thumbnail --> 
-          </a> </li>
-        <li> 
-          <!-- Begin Full Size Link and Description --> 
-          <a href="#" title=""> <img src="<?php echo base_url();?>style/images/art/carousel-14.jpg" alt="" /><!-- Image Thumbnail --> 
-          </a> </li>
-        <li> 
-          <!-- Begin Full Size Link and Description --> 
-          <a href="#" title=""> <img src="<?php echo base_url();?>style/images/art/carousel-15.jpg" alt="" /><!-- Image Thumbnail --> 
-          </a> </li>
-        <li> 
-          <!-- Begin Full Size Link and Description --> 
-          <a href="#" title=""> <img src="<?php echo base_url();?>style/images/art/carousel-16.jpg" alt="" /><!-- Image Thumbnail --> 
-          </a> </li>
+
+<!--         <li> 
+
+          <a href="#" title=""> <!-- Image Thumbnail --> 
+    <!--       </a>
+           </li> --> 
+           <?php 
+           foreach ($room_pictures as $room) {
+            echo "<li><a href='#'' title=''>";
+             echo "<img src='".base_url().'img/'.$room['picture_path']."' style='width:175px;height:120px;'/>";
+            echo "</li></a>";
+           }
+            ?>
+    
       </ul>
     </div>
   </div>

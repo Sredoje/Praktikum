@@ -99,6 +99,17 @@ class Room_model extends CI_Model{
 								 WHERE room_id = '$room_id'");
 		return $query->result_array();
 	}
+	public function add_room_pictures($file_path,$room_id) {
+		$query = "INSERT INTO room_pictures (room_id,picture_path) 
+				VALUES ('$room_id','$file_path')";
+		$this->db->query($query);
+	}
+	public function get_room_pictures($room_id) {
+		$query=$this->db->query("SELECT *
+				 FROM room_pictures
+				 WHERE room_id='$room_id' "); 
+		return $query->result_array();
+	}
 
 
 	
