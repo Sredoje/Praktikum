@@ -33,8 +33,8 @@ class Room extends CI_Controller
 		$this->load->model('hotel_model');
 		$this->load->model('room_model');
 		$data['all_hotels_from_user']=$this->hotel_model->all_hotel_by_user($this->session->userdata['id_usera']);
+		$data['all_rooms_from_user']=$this->room_model->all_rooms_from_user($this->session->userdata['id_usera']);
 		$data['room_category']=$this->room_model->get_room_category();
-		
 		$this->load->view('moderator',$data);
 
 	}
@@ -71,6 +71,8 @@ class Room extends CI_Controller
 				$facilities=$this->serialize_facilities();
 				$this->room_model->unesi_room_ceo($this->input->post('room_name'),$this->input->post('room_category'),$this->input->post('room_about'),$this->input->post('room_space'),$this->input->post('room_from'),$this->input->post('room_to'),$this->input->post('room_hotel'),$this->session->userdata['id_usera'],$facilities,$this->input->post('mini_price'),$this->input->post('medium_price'),$this->input->post('full_price'));
 				$data['all_hotels_from_user']=$this->hotel_model->all_hotel_by_user($this->session->userdata['id_usera']);
+				$data['all_rooms_from_user']=$this->room_model->all_rooms_from_user($this->session->userdata['id_usera']);
+				$data['room_category']=$this->room_model->get_room_category();
 				$this->load->view('moderator',$data);
 			}
 		}
@@ -80,8 +82,45 @@ class Room extends CI_Controller
 		}
 			
 	}
+	public function edit_room_valid() {
+		$this->load->library('form_validation');
+		$this->form_validation->set_rules('edit_room_name', 'Room name', 'required|min_length[6]');
+		$this->form_validation->set_rules('edit_room_about', 'About room', 'required|min_length[10]');
+		$this->form_validation->set_rules('edit_room_space', 'Room space', 'required|integer');
+		$this->form_validation->set_rules('edit_room_from', 'Room from', 'required|integer');
+		$this->form_validation->set_rules('edit_room_to', 'Room to', 'required|integer'); 
+		$this->form_validation->set_rules('edit_mini_price', 'Room mini packet cost', 'required|integer');
+		$this->form_validation->set_rules('edit_medium_price', 'Room medium packet cost', 'required|integer');
+		$this->form_validation->set_rules('edit_full_price', 'Room full packet cost', 'required|integer');
+		if($this->form_validation->run()) {
+				$data['hotel_message']="<p>Succesfully edited room<br></p>";
+				$this->load->model('room_model');
+				$this->load->model('hotel_model');
+				$facilities=$this->edit_serialize_facilities();
+				$this->room_model->edit_room_ceo($this->input->post('edit_room_name'),$this->input->post('edit_room_category'),$this->input->post('edit_room_about'),$this->input->post('edit_room_space'),$this->input->post('edit_room_from'),$this->input->post('edit_room_to'),$this->input->post('edit_room_hotel'),$this->session->userdata['id_usera'],$facilities,$this->input->post('edit_mini_price'),$this->input->post('edit_medium_price'),$this->input->post('edit_full_price'),$this->input->post('edit_room_select'));
+				$data['all_hotels_from_user']=$this->hotel_model->all_hotel_by_user($this->session->userdata['id_usera']);
+				$data['all_rooms_from_user']=$this->room_model->all_rooms_from_user($this->session->userdata['id_usera']);
+				$data['room_category']=$this->room_model->get_room_category();
+				$this->load->view('moderator',$data);
+		}
+		else
+		{
+			$this->show_moderator();
+		}
+
+	} 
 	public function serialize_facilities(){
 		$facilities=$this->input->post('room_facilities');
+		$facilities_string="";
+
+		// for ($i=0; $i < count($facilities); $i++) { 
+		// 	$facilities_string=$facilities[i];
+		// }
+		
+		return serialize($facilities);
+	}
+	public function edit_serialize_facilities(){
+		$facilities=$this->input->post('edit_room_facilities');
 		$facilities_string="";
 
 		// for ($i=0; $i < count($facilities); $i++) { 
@@ -129,6 +168,7 @@ class Room extends CI_Controller
 			return false;
 		}
 	}
+	
 
 	
 }

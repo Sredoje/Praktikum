@@ -46,6 +46,12 @@ class Ajax extends CI_Controller {
 		 $data['html'] = $link;
 		echo json_encode($data);
 	}
+	public function get_room (){
+		$this->load->model('room_model');
+		$room_id = $_POST['id'];
+		$data['room'] = $this->room_model->get_room_for_id($room_id);
+		echo json_encode($data);
+	}
 	
 
 }

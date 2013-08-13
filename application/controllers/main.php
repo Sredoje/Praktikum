@@ -46,6 +46,7 @@ class Main extends CI_Controller {
 		$this->load->model('hotel_model');
 		$this->load->model('room_model');
 		$data['all_hotels_from_user']=$this->hotel_model->all_hotel_by_user($this->session->userdata['id_usera']);
+		$data['all_rooms_from_user']=$this->room_model->all_rooms_from_user($this->session->userdata['id_usera']);
 		$data['room_category']=$this->room_model->get_room_category();
 		$this->load->view('moderator',$data);
 

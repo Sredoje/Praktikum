@@ -84,12 +84,12 @@ class Hotel_model extends CI_Model{
 				WHERE id_hotel='$id_hotel'";
 		$this->db->query($sql); 
 	}
-	public function all_hotel_by_user($id_user)
+	public function all_hotel_by_user($id_usera)
 	{
 		$query = $this->db->query("SELECT * 
 								   FROM hotel h JOIN users_hotel uh 
 								   ON h.id_hotel=uh.id_hotel 
-								   WHERE uh.id_user='$id_user'");
+								   WHERE uh.id_user='$id_usera'");
 		return $query->result_array();
 
 	}

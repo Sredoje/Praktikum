@@ -51,6 +51,23 @@ class Room_model extends CI_Model{
 				 VALUES ('$id_user','$last_id')";
 		$this->db->query($sql2);
 	}
+	public function edit_room_ceo($name,$category,$about,$space,$from,$to,$room_hotel,$id_user,$fac,$mini,$medium,$full,$room_id)
+	{
+		$sql = "UPDATE rooms
+				SET room_name='$name',
+				room_category='$category',
+				room_about='$about',
+				room_space='$space',
+				room_from='$from',
+				room_facilities='$fac',
+				room_to='$to',
+				room_hotel='$room_hotel',
+				mini_price='$mini',
+				medium_price='$medium',
+				full_price='$full'
+			    WHERE room_id='$room_id'";
+		$this->db->query($sql);
+	}
 	public function get_room_facilities(){
 		$upit=$this->db->query("SELECT room_facilities
 								FROM rooms WHERE room_id='17'");
@@ -68,6 +85,19 @@ class Room_model extends CI_Model{
 								 FROM rooms
 								 WHERE room_id = '$room_id'");
 		return $query->row_array();
+	}
+	public function all_rooms_from_user($id_usera) {
+		$query = $this->db->query("SELECT * 
+								   FROM rooms r JOIN users_room ur 
+								   ON r.room_id=ur.id_room 
+								   WHERE ur.id_user='$id_usera'");
+		return $query->result_array();
+	}
+	public function get_room_for_id($room_id) {
+		$query=$this->db->query("SELECT *
+								 FROM rooms
+								 WHERE room_id = '$room_id'");
+		return $query->result_array();
 	}
 
 

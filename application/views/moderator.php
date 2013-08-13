@@ -194,6 +194,7 @@ $(document).ready(function(){
             <li><a href="#tab5">Edit room</a></li>
 
           </ul>
+          <!-- Add room -->
           <div class="tab_container">
             <div style="display: none;" id="tab4" class="tab_content">
              To which hotel this room belongs:<br>
@@ -258,68 +259,72 @@ $(document).ready(function(){
             <br>
             <br>
             <input type="submit" class="btn btn-info" value="Add room"></input>
+             </form>
           </div>
+          <!-- Edit room -->
           <div style="display: none;" id="tab5" class="tab_content">
+             <form method="post" action="<?php echo base_url() ?>room/edit_room_valid" enctype="multipart/form-data">
             Room:
-            <select>
-              <option>room1</option>
-              <option>room2</option>
-              <option>room3</option>
+            <select id="edit_room_select" name="edit_room_select">
+              <?php 
+              foreach ($all_rooms_from_user as $room) {
+                $room_name=$room['room_name'];
+                 echo "<option value=".$room['room_id'].">$room_name</option>";
+              }
+               ?>
+
 
             </select>
-            <br>
-            Room name:<br>
-            <input type="text"><br><br>
-            Room hotel:<br>
-            <select>
-              <option>Hotel1</option>
-              <option>Hotel2</option>
-              <option>Hotel3</option>
-              <option>Hotel4</option>
-            </select><br><br>
-            Room category:<br>
-            <select>
-              <option>Standard room</option>
-              <option>Family room</option>
-              <option>Senior Suite</option>
-              <option>Presidential Suite</option>
-            </select>
             <br><br>
-            Main room picture:<br>
-            <input type="file">
+            Room name:<br>
+            <input type="text" name="edit_room_name"><br><br>
+            Room category:<br>
+            <select name="edit_room_category" class="edit_room_category">
+              <option value="1">Standard room</option>
+              <option value="2">Family room</option>
+              <option value="3">Senior Suite</option>
+              <option value="4">Presidential Suite</option>
+            </select>
+
             <br><br>
             About room:<br>
-            <textarea>Nesto</textarea>
+            <textarea name="edit_room_about">Nesto</textarea>
             <br><br>
             Living space:
             <br>
-            <input type="text"><br>
+            <input type="text" name="edit_room_space"><br>
             Convenient for:
             <br><br>
-            From <input type="text">  To <input type="text"><br><br>
+            From <input type="text" name="edit_room_from">  To <input type="text" name="edit_room_to"><br><br>
+            Mini packet cost:<br>
+            <input type="text" name="edit_mini_price"><br>
+            Medium packet: cost:<br>
+            <input type="text" name="edit_medium_price"><br>
+            Full packet: cost:<br>
+            <input type="text" name="edit_full_price"><br>
             Room facilities:<br>
-            <br><input type="checkbox">Free WiFi
-            <br><input type="checkbox">Free access to Sauna and Jacuzzi
-            <br><input type="checkbox">Bathroom with Bathtub
-            <br><input type="checkbox">Bathrobe
-            <br><input type="checkbox">Hairdyer
-            <br><input type="checkbox">Air conditioning
-            <br><input type="checkbox">Direct dial phone
-            <br><input type="checkbox">Laundry service
-            <br><input type="checkbox">Minibar
-            <br><input type="checkbox">Pay TV
-            <br><input type="checkbox">Safety box
-            <br><input type="checkbox">Iron + board on request
-            <br><input type="checkbox">Slippers on request
-            <br><input type="checkbox">24 hours room service
+            <br><input type="checkbox" name="edit_room_facilities[]" value="Free Wifi">Free WiFi
+            <br><input type="checkbox" name="edit_room_facilities[]" value="Free access to Sauna and Jacuzzi">Free access to Sauna and Jacuzzi
+            <br><input type="checkbox" name="edit_room_facilities[]" value="Bathroom with Bathtub">Bathroom with Bathtub
+            <br><input type="checkbox" name="edit_room_facilities[]" value="Bathrobe">Bathrobe
+            <br><input type="checkbox" name="edit_room_facilities[]" value="Hairdyer">Hairdyer
+            <br><input type="checkbox" name="edit_room_facilities[]" value="Air conditioning">Air conditioning
+            <br><input type="checkbox" name="edit_room_facilities[]" value="Direct dial phone">Direct dial phone
+            <br><input type="checkbox" name="edit_room_facilities[]" value="Laundry service">Laundry service
+            <br><input type="checkbox" name="edit_room_facilities[]" value="Minibar">Minibar
+            <br><input type="checkbox" name="edit_room_facilities[]" value="Pay TV">Pay TV
+            <br><input type="checkbox" name="edit_room_facilities[]" value="Safety box">Safety box
+            <br><input type="checkbox" name="edit_room_facilities[]" value="Iron + board on request">Iron + board on request
+            <br><input type="checkbox" name="edit_room_facilities[]" value="Slippers on request">Slippers on request
+            <br><input type="checkbox" name="edit_room_facilities[]" value="24 hours room service">24 hours room service
             <br>
             <br>
             <input type="submit" class="btn btn-info" value="Edit room"></input>
           </div>
-
-
-
         </form>
+
+
+       
 
       </div>
     </div>
@@ -400,5 +405,50 @@ $(document).ready(function(){
   </div>
 </div>
 <!-- End Footer -->
+<script type="text/javascript">
+
+   $('#edit_room_select').change(function(){
+        $.ajax({
+    // the URL for the request
+    url: '<?php echo base_url()."ajax/get_room" ?>',
+ 
+    // the data to send (will be converted to a query string)
+    data: {
+        id: $('#edit_room_select').val()
+    },
+ 
+    // whether this is a POST or GET request
+    type: "POST",
+ 
+    // the type of data we expect back
+    dataType : "json",
+ 
+    // code to run if the request succeeds;
+    // the response is passed to the function
+    success: function( json ) {
+        console.log(json.room[0]);
+         $("input[name='edit_room_name']").val(json.room[0].room_name);
+         $("select.edit_room_category").val(json.room[0].room_category);
+         $("textarea[name='edit_room_about']").text(json.room[0].room_about);
+         $("input[name='edit_room_space']").val(json.room[0].room_space);
+         $("input[name='edit_room_from']").val(json.room[0].room_from);
+         $("input[name='edit_room_to']").val(json.room[0].room_to);
+         $("input[name='edit_mini_price']").val(json.room[0].mini_price);
+         $("input[name='edit_medium_price']").val(json.room[0].medium_price);
+         $("input[name='edit_full_price']").val(json.room[0].full_price);
+    },
+    // code to run if the request fails; the raw request and
+    // status codes are passed to the function
+    error: function( xhr, status ) {
+        alert( "Sorry, there was a problem!" );
+    },
+ 
+    // code to run regardless of success or failure
+    complete: function( xhr, status ) {
+
+    }
+});
+    });
+</script>
 </body>
 </html>
