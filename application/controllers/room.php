@@ -185,7 +185,7 @@ class Room extends CI_Controller
 			$fajl=$this->upload->data();
 			$this->load->model('room_model');
 			$this->room_model->add_room_pictures($fajl['file_name'],$room_id);
-			$data['hotel_message']="<p>Succesfully added room pictures<br></p>";
+			$data['hotel_message']="<p>Succesfully added room picture<br></p>";
 			$this->load->model('hotel_model');
 			$facilities=$this->edit_serialize_facilities();
 			$this->room_model->edit_room_ceo($this->input->post('edit_room_name'),$this->input->post('edit_room_category'),$this->input->post('edit_room_about'),$this->input->post('edit_room_space'),$this->input->post('edit_room_from'),$this->input->post('edit_room_to'),$this->input->post('edit_room_hotel'),$this->session->userdata['id_usera'],$facilities,$this->input->post('edit_mini_price'),$this->input->post('edit_medium_price'),$this->input->post('edit_full_price'),$this->input->post('edit_room_select'));
@@ -208,6 +208,17 @@ class Room extends CI_Controller
 			$this->form_validation->set_message('proveri_zapise_rooma','That room already exists!');
 			return false;
 		}
+	}
+	public function delete_room_picture($id,$filename) {
+		$this->load->model('room_model');
+		$this->load->model('hotel_model');
+		$this->room_model->delete_room_picture($id,$filename);
+		$data['hotel_message']="<p>Succesfully deleted room picture<br></p>";
+		$data['all_hotels_from_user']=$this->hotel_model->all_hotel_by_user($this->session->userdata['id_usera']);
+		$data['all_rooms_from_user']=$this->room_model->all_rooms_from_user($this->session->userdata['id_usera']);
+		$data['room_category']=$this->room_model->get_room_category();
+		$this->load->view('moderator',$data);
+
 	}
 	
 

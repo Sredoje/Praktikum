@@ -2133,3 +2133,6 @@ h2.trigger.active {
 .d-carousel .jcarousel-prev-horizontal:hover {
 	background-position: bottom left;
 }
+.deletehref {
+	margin:10px 0 10px 0 !important;
+}

@@ -332,18 +332,19 @@ $(document).ready(function(){
   </div>
 </div>
 <div class="toggle">
-  <h2 class="trigger">+Add room pictures</h2>
+  <h2 class="trigger">+Add/Remove room pictures</h2>
   <div class="togglebox">
     <div>
       <form method="post" action="<?php echo base_url() ?>room/do_upload3" enctype="multipart/form-data">
-       <select id="add_room_pictures" name="add_room_pictures">
+      <select id="add_room_pictures" name="add_room_pictures">
               <?php 
-              foreach ($all_rooms_from_user as $room) {
-                $room_name=$room['room_name'];
-                 echo "<option value=".$room['room_id'].">$room_name</option>";
-              }
+                foreach ($all_rooms_from_user as $room) {
+                  $room_name=$room['room_name'];
+                   echo "<option value=".$room['room_id'].">$room_name</option>";
+                }
                ?>
       </select>
+      <div class="room_pictures_space"></div>
       <br><br>
       <input type="file" name="room_pictures"><br><br>
       <input type="submit" class="btn btn-info" value="Add picture"></input>
@@ -358,9 +359,15 @@ $(document).ready(function(){
     <div>
       <form>
       Hotel:<br>
-      <select><option>hotel1</option><option>hotel2</option><option>hotel3</option></select><br>
+       <select name="action_hotel">
+              <?php foreach ($all_hotels_from_user as $hotel){
+                $ime=$hotel['ime'];
+                echo "<option value=".$hotel['id_hotel'].">$ime</option>";
+              } ?>
+        </select>
+        <br>
       Actions:<br>
-      TO DO : OVDE MORAM DA VIDIM KAKO CU AKCIJE
+      
       
       <input type="submit" class="btn btn-info" value="Add picture"></input>
       <br>
@@ -412,6 +419,44 @@ $(document).ready(function(){
 </div>
 <!-- End Footer -->
 <script type="text/javascript">
+$('#add_room_pictures').change(function(){
+        $.ajax({
+    // the URL for the request
+    url: '<?php echo base_url()."ajax/get_room_pictures" ?>',
+ 
+    // the data to send (will be converted to a query string)
+    data: {
+        id: $('#add_room_pictures').val()
+    },
+ 
+    // whether this is a POST or GET request
+    type: "POST",
+ 
+    // the type of data we expect back
+    dataType : "json",
+ 
+    // code to run if the request succeeds;
+    // the response is passed to the function
+    success: function( json ) {
+      var test=document.createElement("button");
+          $('.room_pictures_space').html("");
+        for(var i = 0 ; i < json.room.length ; i ++) {
+           var link="<img src='<?php echo base_url() ?>img/"+json.room[i].picture_path+"' style='width:100px;'/><br><a href='<?php echo base_url() ?>room/delete_room_picture/"+json.room[i].room_id+"/"+json.room[i].picture_path+"' class='deletehref btn btn-info' >Delete</a><br>";
+          $('.room_pictures_space').append(link);
+        }
+    },
+    // code to run if the request fails; the raw request and
+    // status codes are passed to the function
+    error: function( xhr, status ) {
+        alert( "Sorry, there was a problem!" );
+    },
+ 
+    // code to run regardless of success or failure
+    complete: function( xhr, status ) {
+
+    }
+});
+    });
 
    $('#edit_room_select').change(function(){
         $.ajax({

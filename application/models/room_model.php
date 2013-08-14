@@ -110,6 +110,11 @@ class Room_model extends CI_Model{
 				 WHERE room_id='$room_id' "); 
 		return $query->result_array();
 	}
+	public function delete_room_picture($id_room,$filename) {
+
+		$this->db->delete('room_pictures', array('room_id' => $id_room, 'picture_path' => $filename)); 
+
+	}
 
 
 	
