@@ -2136,3 +2136,10 @@ h2.trigger.active {
 .deletehref {
 	margin:10px 0 10px 0 !important;
 }
+.action_delete td{
+	background: #fff;
+
+}
+.action_delete {
+	width:auto;
+}

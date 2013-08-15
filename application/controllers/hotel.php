@@ -161,6 +161,17 @@ class Hotel extends CI_Controller
 		$this->load->view('moderator',$data);
 
 	}
+	public function delete_hotel_action($action_id) {
+		$this->load->model('hotel_model');
+		$this->hotel_model->delete_action($action_id);
+		$this->load->model('hotel_model');
+		$this->load->model('room_model');
+		$data['all_hotels_from_user']=$this->hotel_model->all_hotel_by_user($this->session->userdata['id_usera']);
+		$data['all_rooms_from_user']=$this->room_model->all_rooms_from_user($this->session->userdata['id_usera']);
+		$data['room_category']=$this->room_model->get_room_category();
+		$data['hotel_message']="<p>Succesfully deleted action<br></p>";
+		$this->load->view('moderator',$data);
+	}
 
 }
 /* End of file hotel.php */

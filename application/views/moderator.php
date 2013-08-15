@@ -362,14 +362,16 @@ $(document).ready(function(){
     <div>
       <form method="post" action="<?php echo base_url() ?>hotel/add_hotel_action" enctype="multipart/form-data">
       Hotel:<br>
-       <select name="action_hotel">
+       <select id="action_hotel" name="action_hotel">
               <?php foreach ($all_hotels_from_user as $hotel){
                 $ime=$hotel['ime'];
                 echo "<option value=".$hotel['id_hotel'].">$ime</option>";
               } ?>
         </select>
         <br>
-        <table></table>
+        <table class="action_delete">
+
+        </table>
       Actions:<br>
       Start date:<br>
       <input name="action_start" type="text" id="from">
@@ -455,6 +457,45 @@ $(document).ready(function(){
   });
   </script>
 <script type="text/javascript">
+$('#action_hotel').change(function(){
+        $.ajax({
+    // the URL for the request
+    url: '<?php echo base_url()."ajax/get_hotel_actions" ?>',
+ 
+    // the data to send (will be converted to a query string)
+    data: {
+        id: $('#action_hotel').val()
+    },
+ 
+    // whether this is a POST or GET request
+    type: "POST",
+ 
+    // the type of data we expect back
+    dataType : "json",
+ 
+    // code to run if the request succeeds;
+    // the response is passed to the function
+    success: function( json ) {
+      console.log(json.actions[0]);
+        
+          $('.action_delete').html("");
+        for(var i = 0 ; i < json.actions.length ; i ++) {
+           var link="<tr>"+"<td>  "+json.actions[i].action_start_date+" - " +json.actions[i].action_end_date+ "</td><td><a href='<?php echo base_url() ?>hotel/delete_hotel_action/"+json.actions[i].action_id+"' class='deletehref btn btn-info' >Delete</a></td>"+"</tr>"
+          $('.action_delete').append(link);
+        }
+    },
+    // code to run if the request fails; the raw request and
+    // status codes are passed to the function
+    error: function( xhr, status ) {
+        alert( "Sorry, there was a problem!" );
+    },
+ 
+    // code to run regardless of success or failure
+    complete: function( xhr, status ) {
+
+    }
+});
+    });
 $('#add_room_pictures').change(function(){
         $.ajax({
     // the URL for the request
@@ -536,6 +577,9 @@ $('#add_room_pictures').change(function(){
     }
 });
     });
+</script>
+<script type="text/javascript">
+$("#action_hotel,#add_room_pictures").change();
 </script>
 </body>
 </html>

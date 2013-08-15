@@ -113,6 +113,9 @@ class Hotel_model extends CI_Model{
 		$query = $this->db->get_where('hotel_action', array('hotel_id' => $hotel_id));
 		return $query->result_array();
 	}
+	public function delete_action($action_id) {
+		$this->db->delete('hotel_action', array('action_id' => $action_id)); 
+	}
 
 
 	
