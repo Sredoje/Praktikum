@@ -14,8 +14,11 @@ class Room extends CI_Controller
 	}
 	public function show_room($room_id) {
 		$this->load->model('room_model');
+		$this->load->model('hotel_model');
 		$data['room']=$this->room_model->get_room_by_id($room_id);
 		$data['room_pictures']=$this->room_model->get_room_pictures($room_id);
+		$hotel_id=$this->room_model->get_hotel_id($room_id);
+		$data['hotel_action']=$this->hotel_model->get_actions($hotel_id[0]['room_hotel']);
 		$this->load->view('room',$data);
 		// $data['room_facilities']=$this->room_model->get_room_facilities();
 		 

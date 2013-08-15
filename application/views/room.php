@@ -188,34 +188,16 @@ jQuery(document).ready(function() {
         <td><h2>Medium </h2></td>
         <td><h2>Full </h2></td>
       </tr>
-      <tr class="even">
-        <td class="right">Action-date 1</td>
-       
-        <td>30$</td>
-        <td>30$</td>
-        <td>30$</td>
-      </tr>
-      <tr>
-        <td class="right">Action-date 2</td>
-        
-        <td>30$</td>
-        <td>30$</td>
-        <td>30$</td>
-      </tr>
-      <tr class="even">
-        <td class="right">Action-date 3</td>
-       
-        <td>30$</td>
-        <td>30$</td>
-        <td>30$</td>
-      </tr>
-      <tr>
-        <td class="right">Action-date 4</td>
-       
-        <td>30$</td>
-        <td>30$</td>
-        <td>30$</td>
-      </tr>
+     <?php
+      foreach ($hotel_action as $action) {
+        echo "<tr class='even'>";
+        echo '<td class="right">'.$action['action_start_date'].' -  '.$action['action_end_date'].'</td>';
+        echo '<td>'.$action['action_mini'].'$</td>';
+        echo '<td>'.$action['action_medium'].'$</td>';
+        echo '<td>'.$action['action_full'].'$</td>';
+      }
+
+      ?>
      
     </table>
     <!-- END Actions -->
@@ -248,22 +230,30 @@ jQuery(document).ready(function() {
     </div>
     <div class="clear"></div>
     <div class="d-carousel sgrid" >
+<?php if(!$room_pictures) {
+  echo "<div class='test'>";
+} ?>
       <ul class="carousel">
 
-<!--         <li> 
 
-          <a href="#" title=""> <!-- Image Thumbnail --> 
-    <!--       </a>
-           </li> --> 
            <?php 
-           foreach ($room_pictures as $room) {
-            echo "<li><a href='#'' title=''>";
+           if($room_pictures) {
+              foreach ($room_pictures as $room) {
+             echo "<li><a href='#'' title=''>";
              echo "<img src='".base_url().'img/'.$room['picture_path']."' style='width:175px;height:120px;'/>";
-            echo "</li></a>";
+              echo "</li></a>";
            }
+           }
+           else {
+            echo " no pictures ATM";
+           }
+         
             ?>
     
       </ul>
+<?php if(!$room_pictures) {
+  echo "</div>";
+} ?>
     </div>
   </div>
   <!-- End Wrapper -->
@@ -340,6 +330,8 @@ $(function() {
                     });
                 };
             });
+            $('div.test').hide();
+
 });
 </script>
 </body>

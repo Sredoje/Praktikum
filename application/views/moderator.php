@@ -10,10 +10,13 @@
 <!--[if IE 7]>
 <link rel="stylesheet" type="text/css" href="style/css/ie7.css" media="all" />
 <![endif]-->
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
 <script type="text/javascript" src="<?php echo base_url();?>style/js/jquery-1.5.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url();?>style/js/ddsmoothmenu.js"></script>
 <script type="text/javascript" src="<?php echo base_url();?>style/js/scripts.js"></script>
 <script type="text/javascript" src="<?php echo base_url();?>style/js/jquery.infieldlabel.min.js"></script>
+ <script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
+
 <!-- <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>style/button.css" media="all" /> -->
 
 
@@ -357,7 +360,7 @@ $(document).ready(function(){
   <h2 class="trigger">+Add hotel actions</h2>
   <div class="togglebox">
     <div>
-      <form>
+      <form method="post" action="<?php echo base_url() ?>hotel/add_hotel_action" enctype="multipart/form-data">
       Hotel:<br>
        <select name="action_hotel">
               <?php foreach ($all_hotels_from_user as $hotel){
@@ -366,10 +369,23 @@ $(document).ready(function(){
               } ?>
         </select>
         <br>
+        <table></table>
       Actions:<br>
+      Start date:<br>
+      <input name="action_start" type="text" id="from">
+      <br><br>
+      End date:<br>
+
+      <input name="action_end" type="text" id="to"><br><br>
+      Mini price:<br>
+      <input name="action_mini" type="text"><br><br>
+      Medium price:<br>
+      <input name="action_medium" type="text"><br><br>
+      Full price:<br>
+      <input name="action_full" type="text"><br><br>
+
       
-      
-      <input type="submit" class="btn btn-info" value="Add picture"></input>
+      <input type="submit" class="btn btn-info" value="Add action"></input>
       <br>
     </form>
   </div>
@@ -418,6 +434,26 @@ $(document).ready(function(){
   </div>
 </div>
 <!-- End Footer -->
+      <script>
+  $(function() {
+    $( "#from" ).datepicker({
+      defaultDate: "+1w",
+      changeMonth: true,
+      numberOfMonths: 3,
+      onClose: function( selectedDate ) {
+        $( "#to" ).datepicker( "option", "minDate", selectedDate );
+      }
+    });
+    $( "#to" ).datepicker({
+      defaultDate: "+1w",
+      changeMonth: true,
+      numberOfMonths: 3,
+      onClose: function( selectedDate ) {
+        $( "#from" ).datepicker( "option", "maxDate", selectedDate );
+      }
+    });
+  });
+  </script>
 <script type="text/javascript">
 $('#add_room_pictures').change(function(){
         $.ajax({

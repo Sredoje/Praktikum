@@ -17,8 +17,10 @@ class Hotel extends CI_Controller
 		$this->load->model('hotel_model');
 		$this->load->model('room_model');
 		$data['all_hotels_from_user']=$this->hotel_model->all_hotel_by_user($this->session->userdata['id_usera']);
+		$data['all_rooms_from_user']=$this->room_model->all_rooms_from_user($this->session->userdata['id_usera']);
 		$data['room_category']=$this->room_model->get_room_category();
 		$this->load->view('moderator',$data);
+
 	}
 	
 	//validacija unosa hotela
@@ -140,6 +142,25 @@ class Hotel extends CI_Controller
 			return false;
 		}
 	}	
+	public function add_hotel_action() {
+		$this->load->model('hotel_model');
+		$hotel_id=$this->input->post('action_hotel');
+		$start_date=$this->input->post('action_start');
+		$end_date=$this->input->post('action_end');
+		$mini=$this->input->post('action_mini');
+		$medium=$this->input->post('action_medium');
+		$full=$this->input->post('action_full');
+		$this->hotel_model->add_hotel_action($hotel_id,$start_date,$end_date,$mini,$medium,$full);
+
+		$this->load->model('hotel_model');
+		$this->load->model('room_model');
+		$data['all_hotels_from_user']=$this->hotel_model->all_hotel_by_user($this->session->userdata['id_usera']);
+		$data['all_rooms_from_user']=$this->room_model->all_rooms_from_user($this->session->userdata['id_usera']);
+		$data['room_category']=$this->room_model->get_room_category();
+		$data['hotel_message']="<p>Succesfully added action<br></p>";
+		$this->load->view('moderator',$data);
+
+	}
 
 }
 /* End of file hotel.php */

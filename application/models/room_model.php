@@ -115,6 +115,12 @@ class Room_model extends CI_Model{
 		$this->db->delete('room_pictures', array('room_id' => $id_room, 'picture_path' => $filename)); 
 
 	}
+	public function get_hotel_id($room_id) {
+		$query=$this->db->query("SELECT room_hotel
+				 FROM rooms
+				 WHERE room_id='$room_id' "); 
+		return $query->result_array();
+	}
 
 
 	

@@ -98,6 +98,21 @@ class Hotel_model extends CI_Model{
 									FROM hotel");
 		return $query->result_array();
 	}
+	public function add_hotel_action($hotel_id,$start,$end,$mini,$medium,$full) {
+		$data = array(
+		   'hotel_id' => $hotel_id ,
+		   'action_start_date' => $start ,
+		   'action_end_date' => $end ,
+		   'action_mini' => $mini ,
+		   'action_medium' => $medium ,
+		   'action_full' => $full
+		);
+		$this->db->insert('hotel_action', $data); 
+	}
+	public function get_actions($hotel_id) {
+		$query = $this->db->get_where('hotel_action', array('hotel_id' => $hotel_id));
+		return $query->result_array();
+	}
 
 
 	
