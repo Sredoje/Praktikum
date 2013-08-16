@@ -221,10 +221,39 @@ class Room extends CI_Controller
 		$data['all_rooms_from_user']=$this->room_model->all_rooms_from_user($this->session->userdata['id_usera']);
 		$data['room_category']=$this->room_model->get_room_category();
 		$this->load->view('moderator',$data);
-
 	}
-	
+	//Booking room
+	public function book_room($room_id) {
+		$this->load->model('room_model');
+		$from = $this->input->post('from');
+		$to = $this->input->post('to');
+		$packet = $this->input->post('packet');
+		$data['test']=$this->room_model->books_by_room($room_id);
+		$all_booked_rooms = $this->room_model->books_by_room($room_id);
+		$data['book_errors']=array();
+		foreach ($all_booked_rooms as $booked_room) {
+			$from_booked = strtotime($booked_room['from']);
+			$to_booked = strtotime($booked_room['to']);
+			$current_from = strtotime($from);
+			$current_to = strtotime($to);
+			
+			if($current_from < $from_booked && $current_to < $from_booked || $current_from > $to_booked && $current_to > $to_booked) {
+				$data['book_errors'] = array('error_from' =>$booked_room['from'] ,'error_to' =>$booked_room['to'] ,'kita' => 'kita');
+			}
+			else {
+				$data['book_errors'] = array('error_from' =>$booked_room['from'] ,'error_to' =>$booked_room['to'] );
+				break;
+			}
 
+		}
+		$this->load->model('hotel_model');
+		$data['room']=$this->room_model->get_room_by_id($room_id);
+		$data['room_pictures']=$this->room_model->get_room_pictures($room_id);
+		$hotel_id=$this->room_model->get_hotel_id($room_id);
+		$data['hotel_action']=$this->hotel_model->get_actions($hotel_id[0]['room_hotel']);
+
+		$this->load->view('room',$data);
+	}
 	
 }
 /* End of file room.php */

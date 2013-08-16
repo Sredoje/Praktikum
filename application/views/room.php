@@ -30,16 +30,6 @@ jQuery(document).ready(function() {
     margin-bottom:35px;
   }
 </style>
-<script>
-  $(function() {
-    $( "#datepicker" ).datepicker();
-  });
-  </script>
-  <script>
-  $(function() {
-    $( "#datepicker2" ).datepicker();
-  });
-  </script>
 </head>
 <body>
 <div id="container"> 
@@ -107,7 +97,6 @@ jQuery(document).ready(function() {
   <!-- Begin Wrapper -->
 
   <div id="wrapper">
-          
     <div class="tab-wrapper">
       <ul id="tab-menu">
         <li class="selected"><img src="<?php echo base_url();?>style/images/icon-palette.png" alt="" />About room</li>
@@ -204,25 +193,23 @@ jQuery(document).ready(function() {
         </div>
         <div class="tab">
           <h2>Neki tekst neki tekst neki tekst</h2><br>
-          <form>
-      <!--  <p>Check in:   &nbsp&nbsp<input type="text" id="datepicker" /></p>
-       <p>Check out: <input type="text" id="datepicker2" /></p> -->
+          <form method="post" action="<?php echo base_url() ?>room/book_room/<?php echo $room['room_id'] ?>" enctype="multipart/form-data">
 
        <table border="0px black solid">
         <thead>
-          <tr><td>Check in:</td><td>Check out:</td><td>Adults (18+)</td><td>Children*</td><td>Packet</td></tr>
+          <tr><td>Check in:</td><td>Check out:</td><td>Packet</td></tr>
         </thead>
         <tbody>
-          <tr><td><input type="text" id="datepicker" /></td><td><input type="text" id="datepicker2" /></td><td><select><option>1</option><option>2</option><option>3</option></select></td><td><select><option>1</option><option>2</option><option>3</option></select></td><td><select><option>Mini</option><option>Medium</option><option>Full</option></select></td></tr>
+          <tr><td><input type="text" id="datepicker" name="from" /></td><td><input type="text" id="datepicker2" name="to" /></td><td><select name="packet"><option value="mini">Mini</option><option value="medium">Medium</option><option value="full">Full</option></select></td></tr>
         </tbody>
 
        </table>
-       *Children have 50% off price
        <br>
        <br>
        <input type="submit" class="btn btn-info" value="Book Now"></input>
        </form>
        <br>
+       <?php var_dump($book_errors) ?>
         </div>
           
        
@@ -230,9 +217,9 @@ jQuery(document).ready(function() {
     </div>
     <div class="clear"></div>
     <div class="d-carousel sgrid" >
-<?php if(!$room_pictures) {
-  echo "<div class='test'>";
-} ?>
+      <?php if(!$room_pictures) {
+        echo "<div class='test'>";
+      } ?>
       <ul class="carousel">
 
 
@@ -334,5 +321,27 @@ $(function() {
 
 });
 </script>
+    <script>
+  $(function() {
+    $( "#datepicker" ).datepicker({
+      defaultDate: "+1w",
+      changeMonth: true,
+      numberOfMonths: 3,
+      onClose: function( selectedDate ) {
+        $( "#datepicker2" ).datepicker( "option", "minDate", selectedDate );
+      }
+    });
+    $( "#datepicker2" ).datepicker({
+      defaultDate: "+1w",
+      changeMonth: true,
+      numberOfMonths: 3,
+      onClose: function( selectedDate ) {
+        $( "#datepicker" ).datepicker( "option", "maxDate", selectedDate );
+      }
+    });
+    $('#datepicker, #datepicker2').datepicker("option","dateFormat",  "yy-mm-dd");
+
+  });
+  </script>
 </body>
 </html>

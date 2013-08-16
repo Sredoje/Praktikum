@@ -2143,3 +2143,11 @@ h2.trigger.active {
 .action_delete {
 	width:auto;
 }
+
+.ui-datepicker-calendar tr{
+	border:none;
+}
+.ui-datepicker-calendar {
+	width:100% !important;
+	margin:0 !important;
+}

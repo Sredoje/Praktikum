@@ -454,6 +454,7 @@ $(document).ready(function(){
         $( "#from" ).datepicker( "option", "maxDate", selectedDate );
       }
     });
+    $('#from, #to').datepicker("option","dateFormat",  "yy-mm-dd");
   });
   </script>
 <script type="text/javascript">
@@ -476,7 +477,6 @@ $('#action_hotel').change(function(){
     // code to run if the request succeeds;
     // the response is passed to the function
     success: function( json ) {
-      console.log(json.actions[0]);
         
           $('.action_delete').html("");
         for(var i = 0 ; i < json.actions.length ; i ++) {

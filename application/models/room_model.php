@@ -121,6 +121,20 @@ class Room_model extends CI_Model{
 				 WHERE room_id='$room_id' "); 
 		return $query->result_array();
 	}
+	public function add_booked_room($room_id,$from,$to,$packet) {
+		$data = array(
+		   'room_id' => $room_id ,
+		   'from' => $from ,
+		   'to' => $to ,
+		   'packet' => $packet ,
+		);
+		$this->db->insert('room_booked', $data); 
+	}
+	public function books_by_room($room_id) {
+		$query = $this->db->get_where('room_booked', array('room_id' => $room_id));
+		return $query->result_array();
+
+	}
 
 
 	
