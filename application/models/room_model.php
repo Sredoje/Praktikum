@@ -133,7 +133,6 @@ class Room_model extends CI_Model{
 	public function books_by_room($room_id) {
 		$query = $this->db->get_where('room_booked', array('room_id' => $room_id));
 		return $query->result_array();
-
 	}
 
 

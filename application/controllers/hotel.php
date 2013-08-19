@@ -62,6 +62,7 @@ class Hotel extends CI_Controller
 
 		if($this->form_validation->run())
 		{
+			$this->load->model('room_model');
 			if(!$this->edit_upload($this->input->post('edit_select')))
 			{
 				$data['hotel_message']="<p>Error at uploading hotel picture. Check type and size</p>";
@@ -73,6 +74,7 @@ class Hotel extends CI_Controller
 			{
 				$data['hotel_message']="<p>Succesfully edited hotel<br></p>";
 				$this->load->model('hotel_model');
+
 				$this->hotel_model->edit_hotel($this->input->post('edit_name'),$this->input->post('edit_text'),$this->session->userdata['id_usera'],$this->input->post('edit_select'));
 				$data['all_hotels_from_user']=$this->hotel_model->all_hotel_by_user($this->session->userdata['id_usera']);
 				$data['room_category']=$this->room_model->get_room_category();

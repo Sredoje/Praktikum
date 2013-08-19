@@ -97,6 +97,22 @@ jQuery(document).ready(function() {
   <!-- Begin Wrapper -->
 
   <div id="wrapper">
+     <?php 
+
+     if(isset($book_errors)) {
+        echo "<div class='spawn'>";
+          if($book_errors['succes']===true) {
+            echo "<h1 class='green'>Successfully booked room</h1>";
+          }
+          else {
+            echo "<h2>This room is reserved from ".$book_errors['error_from']."to ".$book_errors['error_to'].". You should try some other date</h2>";
+          }
+        echo "</div>";
+     }
+
+       ?>
+
+
     <div class="tab-wrapper">
       <ul id="tab-menu">
         <li class="selected"><img src="<?php echo base_url();?>style/images/icon-palette.png" alt="" />About room</li>
@@ -106,6 +122,7 @@ jQuery(document).ready(function() {
       </ul>
       <div class="tab-content" id="tabzor" >
         <div class="tab show">
+         
           <h3><?php echo $room['room_name']; ?></h3>
           <p><?php echo $room['room_about']; ?></p>
            <h3>Living space:<?php echo $room['room_space']; ?>m2</h3>
@@ -192,7 +209,7 @@ jQuery(document).ready(function() {
     <!-- END Actions -->
         </div>
         <div class="tab">
-          <h2>Neki tekst neki tekst neki tekst</h2><br>
+          <h2>Book this room !</h2><br>
           <form method="post" action="<?php echo base_url() ?>room/book_room/<?php echo $room['room_id'] ?>" enctype="multipart/form-data">
 
        <table border="0px black solid">
@@ -209,7 +226,7 @@ jQuery(document).ready(function() {
        <input type="submit" class="btn btn-info" value="Book Now"></input>
        </form>
        <br>
-       <?php var_dump($book_errors) ?>
+
         </div>
           
        

@@ -228,9 +228,9 @@ class Room extends CI_Controller
 		$from = $this->input->post('from');
 		$to = $this->input->post('to');
 		$packet = $this->input->post('packet');
-		$data['test']=$this->room_model->books_by_room($room_id);
 		$all_booked_rooms = $this->room_model->books_by_room($room_id);
 		$data['book_errors']=array();
+		$data['book_errors'] = array('succes'=>true );
 		foreach ($all_booked_rooms as $booked_room) {
 			$from_booked = strtotime($booked_room['from']);
 			$to_booked = strtotime($booked_room['to']);
@@ -238,14 +238,24 @@ class Room extends CI_Controller
 			$current_to = strtotime($to);
 			
 			if($current_from < $from_booked && $current_to < $from_booked || $current_from > $to_booked && $current_to > $to_booked) {
-				$data['book_errors'] = array('error_from' =>$booked_room['from'] ,'error_to' =>$booked_room['to'] ,'kita' => 'kita');
+				$data['book_errors'] = array('error_from' =>$booked_room['from'] ,'error_to' =>$booked_room['to'],'succes'=>true );
+				
 			}
 			else {
-				$data['book_errors'] = array('error_from' =>$booked_room['from'] ,'error_to' =>$booked_room['to'] );
+				$data['book_errors'] = array('error_from' =>$booked_room['from'] ,'error_to' =>$booked_room['to'],'succes'=>false );
 				break;
+				
 			}
 
 		}
+		if($data['book_errors']['succes']===true) {
+			$data['test']="uspeo";
+			$this->room_model->add_booked_room($room_id,$from,$to,$packet);
+		}
+		else {
+			$data['test']= "nije uspeo";
+		}
+
 		$this->load->model('hotel_model');
 		$data['room']=$this->room_model->get_room_by_id($room_id);
 		$data['room_pictures']=$this->room_model->get_room_pictures($room_id);

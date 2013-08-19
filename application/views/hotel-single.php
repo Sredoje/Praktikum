@@ -206,7 +206,6 @@ $('.n-project, .p-project').click(function(e){
         }
         var acom="<?php echo base_url(); ?>room/show_rooms/"+json.hotel.id_hotel;
         $('#acom').attr('href',acom);
-        console.log(json.hotel.id_hotel);
     },
  
     // code to run if the request fails; the raw request and
