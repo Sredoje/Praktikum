@@ -41,14 +41,14 @@
 <div class="pdcontent">
 	<table>
 		<thead><tr><td>Date</td><td>Hotel</td><td>Room</td><td>Days</td><td>Cost:</td></tr></thead>
-		<tbody><tr><td><?php echo "From <br> " . $actual_data['from'] . "<br> To<br>     " . $actual_data['to'] ?></td><td><?php echo $actual_data['hotel'] ?></td><td><?php echo $actual_data['room'] ?></td><td><?php echo $actual_data['days'] ?></td><td><?php echo $actual_data['cost']."$" ?></td></tr></tbody>
+		<tbody><tr><td><?php echo "From <br> " . $actual_data['from'] . "<br> To<br>     " . $actual_data['to'] ?></td><td><?php echo $actual_data['hotel'] ?></td><td><?php echo $actual_data['room'] ?></td><td><?php echo $actual_data['days'] ?></td><td><?php echo $actual_data['cost'] ?></td></tr></tbody>
 	</table>
 </div>
 <div class="pdfooter">
 	<br><br>
 Thank you for being our guest! We look forward to accommodating you again in the future <br>
 Stay connected with us for te latest offers
-
+<?php //var_dump($proba); ?>
 <?php// var_dump($booked[0]) ?>
 <?php //var_dump($room) ?>
 <?php //var_dump($action) ?>

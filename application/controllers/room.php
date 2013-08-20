@@ -290,7 +290,41 @@ class Room extends CI_Controller
 	 		'cost'=>$cost);
 	 	}
 	 	else {
+	 		$data['proba'] = false;
 	 		$data['test']="IMA AKCIJA";
+	 		foreach ($data['action'] as $action) {
+				$from_booked = strtotime( $booked['from']);
+				$to_booked = strtotime($booked['to']);
+				$action_from = strtotime($action['action_start_date']);
+				$action_to = strtotime($action['action_end_date']);
+				
+				if($from_booked >= $action_from && $to_booked <= $action_to) {
+					$data['proba'] = array(
+						'from'=>$action['action_start_date'],
+						'to'=>$action['action_end_date'],
+						'mini'=>$action['action_mini'],
+						'medium'=>$action['action_medium'],
+						'full'=>$action['action_full']
+						);	
+					break;	
+				}
+			}
+
+	 		$packet=$booked['packet'];
+	 		if($data['proba']===false) {
+	 			$cost=$days_between*$data['room'][$packet.'_price'];
+	 		}
+	 		else {
+	 			$cost=$days_between*$data['proba'][$packet];
+	 		}
+	 		$data['actual_data'] = array(
+	 		'from' => $booked['from'],
+	 		'to' => $booked['to'],
+	 		'hotel' =>$data['hotel'][0]['ime'],
+	 		'room' =>$data['room']['room_name'],
+	 		'days'=>$days_between,
+	 		'cost'=>$cost . "$<br> Action price included");
+
 	 	}
 
 	   	$this->load->helper('pdf_helper');
