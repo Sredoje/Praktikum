@@ -134,6 +134,13 @@ class Room_model extends CI_Model{
 		$query = $this->db->get_where('room_booked', array('room_id' => $room_id));
 		return $query->result_array();
 	}
+	public function get_last_booked() {
+		$this->db->select_max('book_id');
+		$query = $this->db->get('room_booked');
+		$data=$query->result_array();
+		$sql = $this->db->get_where('room_booked', array('book_id' => $data[0]['book_id']));
+		return $sql->result_array();
+	}
 
 
 	

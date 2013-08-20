@@ -41,7 +41,7 @@ if(!isset($this->session->userdata['uloga'])||$this->session->userdata['uloga']!
               <li><a href="<?php echo base_url();?>">Home</a>
                
               </li>
-              <li><a href="<?php echo base_url();?>main/show_hotels/">Hotels</a>
+              <li><a href="<?php echo base_url();?>hotel/show_hotels/">Hotels</a>
                 
               </li>
               <li><a href="<?php echo base_url();?>room/show_rooms/1" >Rooms</a>
@@ -145,6 +145,26 @@ if(!isset($this->session->userdata['uloga'])||$this->session->userdata['uloga']!
           </form>
           </div>
         </div>
+
+
+      </div>
+
+      <div class="toggle">
+        <h2 class="trigger">+Statistics</h2>
+        <div class="togglebox">
+          <div><form>
+            Moderator name:<br>
+            <select><option>Moderator1</option><option>Moderator2</option><option>Moderator3</option></select><br>
+           
+            <br>
+            <input type="submit" class="btn btn-info" value="Add picture"></input>
+
+            <br>
+          </form>
+          </div>
+        </div>
+
+        
       </div>
      
        

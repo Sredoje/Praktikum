@@ -249,7 +249,7 @@ class Room extends CI_Controller
 
 		}
 		if($data['book_errors']['succes']===true) {
-			$data['test']="uspeo";
+			$data['test']=="";
 			$this->room_model->add_booked_room($room_id,$from,$to,$packet);
 		}
 		else {
@@ -264,6 +264,44 @@ class Room extends CI_Controller
 
 		$this->load->view('room',$data);
 	}
+	public function make_pdf()
+	 {
+	 	$this->load->model('room_model');
+	 	$this->load->model('hotel_model');
+	 	$data['booked'] = $this->room_model->get_last_booked();
+	 	$booked = $data['booked'][0];
+	 	$data['room'] = $this->room_model->get_room_by_id($booked['room_id']);
+	 	$data['action'] = $this->hotel_model ->get_actions($data['room']['room_hotel']);
+	 	$data['hotel'] = $this->hotel_model -> get_hotel_by_id($data['room']['room_hotel']);
+	 	$data['actual_data'] = array();
+	 	$start = strtotime($booked['from']);
+		$end = strtotime($booked['to']);
+		$days_between = ceil(abs($end - $start) / 86400);
+	 	if(empty($data['action'])){
+	 		$data['test'] = "NEMA AKCIJA";
+	 		$packet=$booked['packet'];
+	 		$cost=$days_between*$data['room'][$packet.'_price'];
+	 		$data['actual_data'] = array(
+	 		'from' => $booked['from'],
+	 		'to' => $booked['to'],
+	 		'hotel' =>$data['hotel'][0]['ime'],
+	 		'room' =>$data['room']['room_name'],
+	 		'days'=>$days_between,
+	 		'cost'=>$cost);
+	 	}
+	 	else {
+	 		$data['test']="IMA AKCIJA";
+	 	}
+
+	   	$this->load->helper('pdf_helper');
+	   	$pdf_filename = "Hotel reservation";
+	  	$prikaz = $this->load->view('pdf',$data,true);
+	   	// $this->load->view('pdf',$data);
+	  	generate_pdf($prikaz, $pdf_filename);	
+
+
+	 }
+	
 	
 }
 /* End of file room.php */

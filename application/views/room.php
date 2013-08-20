@@ -109,9 +109,9 @@ jQuery(document).ready(function() {
           }
         echo "</div>";
      }
-
+     echo base_url();
        ?>
-
+       <a href="<?php echo base_url();?>room/make_pdf">some link</a>
 
     <div class="tab-wrapper">
       <ul id="tab-menu">
