@@ -249,7 +249,7 @@ class Room extends CI_Controller
 
 		}
 		if($data['book_errors']['succes']===true) {
-			$data['test']=="";
+			$data['test']="";
 			$this->room_model->add_booked_room($room_id,$from,$to,$packet);
 		}
 		else {
@@ -263,6 +263,7 @@ class Room extends CI_Controller
 		$data['hotel_action']=$this->hotel_model->get_actions($hotel_id[0]['room_hotel']);
 
 		$this->load->view('room',$data);
+
 	}
 	public function make_pdf()
 	 {
@@ -312,10 +313,10 @@ class Room extends CI_Controller
 
 	 		$packet=$booked['packet'];
 	 		if($data['proba']===false) {
-	 			$cost=$days_between*$data['room'][$packet.'_price'];
+	 			$cost=$days_between*$data['room'][$packet.'_price']."$";
 	 		}
 	 		else {
-	 			$cost=$days_between*$data['proba'][$packet];
+	 			$cost=$days_between*$data['proba'][$packet]. "$<br> Action price included";
 	 		}
 	 		$data['actual_data'] = array(
 	 		'from' => $booked['from'],
@@ -323,7 +324,7 @@ class Room extends CI_Controller
 	 		'hotel' =>$data['hotel'][0]['ime'],
 	 		'room' =>$data['room']['room_name'],
 	 		'days'=>$days_between,
-	 		'cost'=>$cost . "$<br> Action price included");
+	 		'cost'=>$cost );
 
 	 	}
 

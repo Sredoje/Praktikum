@@ -2158,7 +2158,7 @@ h2.trigger.active {
 	-moz-box-shadow: 0px 1px 2px #888;
 	-webkit-box-shadow: 0px 1px 2px #888;
 	box-shadow: 0px 1px 2px #888;
-	height:20px;
+	height:auto !important;
 	margin-bottom:20px;
 	padding:20px;
 }

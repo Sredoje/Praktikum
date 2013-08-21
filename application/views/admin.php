@@ -93,17 +93,21 @@ if(!isset($this->session->userdata['uloga'])||$this->session->userdata['uloga']!
     
     <!-- Begin Content -->
     <div class="content">
-
-      
+        <?php if(empty($message)) {
+          
+        } 
+        else {
+          echo $message;
+        }?>
         <div class="toggle">
         <h2 class="trigger">+Add Moderator</h2>
         <div class="togglebox">
-          <div><form>
+          <div><form method="post" action="<?php echo base_url() ?>admin/moderator_valid" enctype="multipart/form-data">
             Moderator name:<br>
             
-            <input type="text"><br>
+            <input type="text" name="mod_name"><br>
             Moderator password:<br>
-            <input type="password">
+            <input type="password" name="mod_pass">
             <br>
             <input type="submit" class="btn btn-info" value="Add moderator"></input>
             <br>
@@ -118,9 +122,13 @@ if(!isset($this->session->userdata['uloga'])||$this->session->userdata['uloga']!
         <div class="toggle">
         <h2 class="trigger">+Remove Moderator</h2>
         <div class="togglebox">
-          <div><form>
+          <div><form method="post" action="<?php echo base_url() ?>admin/remove_moderator" enctype="multipart/form-data">
             Moderator name:<br>
-            <select><option>Moderator1</option><option>Moderator2</option><option>Moderator3</option></select><br>
+            <select id="remove_moderator" name="remove_mod">
+              <?php foreach ($moderators as $moderator) {
+                echo "<option value='".$moderator['id_user']."'>".$moderator['username']."</option>";
+              } ?>
+            </select><br>
            
             <br>
             <input type="submit" class="btn btn-info" value="Remove moderator"></input>
@@ -208,5 +216,46 @@ if(!isset($this->session->userdata['uloga'])||$this->session->userdata['uloga']!
   </div>
 </div>
 <!-- End Footer -->
+<script type="text/javascript">
+$('#remove_moderator').change(function(){
+        $.ajax({
+    // the URL for the request
+    url: '<?php echo base_url()."ajax/get_all_moderators" ?>',
+ 
+    // the data to send (will be converted to a query string)
+    data: {
+        id: $('#remove_moderator').val()
+    },
+ 
+    // whether this is a POST or GET request
+    type: "POST",
+ 
+    // the type of data we expect back
+    dataType : "json",
+ 
+    // code to run if the request succeeds;
+    // the response is passed to the function
+    success: function( json ) {
+      console.log( json );
+      // var test=document.createElement("button");
+      //     $('.room_pictures_space').html("");
+      //   for(var i = 0 ; i < json.room.length ; i ++) {
+      //      var link="<img src='<?php echo base_url() ?>img/"+json.room[i].picture_path+"' style='width:100px;'/><br><a href='<?php echo base_url() ?>room/delete_room_picture/"+json.room[i].room_id+"/"+json.room[i].picture_path+"' class='deletehref btn btn-info' >Delete</a><br>";
+      //     $('.room_pictures_space').append(link);
+        }
+    },
+    // code to run if the request fails; the raw request and
+    // status codes are passed to the function
+    error: function( xhr, status ) {
+        alert( "Sorry, there was a problem!" );
+    },
+ 
+    // code to run regardless of success or failure
+    complete: function( xhr, status ) {
+
+    }
+});
+    });
+</script>
 </body>
 </html>

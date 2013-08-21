@@ -64,6 +64,11 @@ class Ajax extends CI_Controller {
 		$data['actions']=$this->hotel_model->get_actions($hotel_id);
 		echo json_encode($data);
 	}
+	public function get_all_moderators(){
+		$this->load->model('users_model');
+		$data['moderators']=$this->users_model->get_moderators();
+		echo json_encode($data);
+	}
 	
 
 }

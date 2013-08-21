@@ -34,4 +34,33 @@ class Users_model extends CI_Model{
 		$row=$query->row_array();
 		return $row['uloga'];
 	}
+	public function mod_exist() {
+		$this->db->where('username',$this->input->post('mod_name'));
+		$query=$this->db->get('users');
+		if($query->num_rows()==0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	public function insert_user($username,$password,$role) {
+		$data = array(
+			'username' => $username,
+			'password' => $password,
+			'uloga' => $role
+			);
+		$this->db->insert('users', $data);
+	}
+	public function get_all_moderators(){
+		$this->db->where('uloga',2);
+		$query = $this->db->get('users');
+		return $query->result_array();
+	}
+	public function remove_moderator($id) {
+		$this->db->delete('users', array('id_user' => $id)); 
+	}
+
 }

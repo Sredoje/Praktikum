@@ -102,16 +102,15 @@ jQuery(document).ready(function() {
      if(isset($book_errors)) {
         echo "<div class='spawn'>";
           if($book_errors['succes']===true) {
-            echo "<h1 class='green'>Successfully booked room</h1>";
+            echo "<h1 class='green'>Successfully booked room</h1><a href='".  base_url()."room/make_pdf'>Here you can download a receipt.</a> ";
           }
           else {
             echo "<h2>This room is reserved from ".$book_errors['error_from']."to ".$book_errors['error_to'].". You should try some other date</h2>";
           }
         echo "</div>";
      }
-     echo base_url();
        ?>
-       <a href="<?php echo base_url();?>room/make_pdf">some link</a>
+       
 
     <div class="tab-wrapper">
       <ul id="tab-menu">
