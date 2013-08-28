@@ -48,6 +48,8 @@
 	<br><br>
 Thank you for being our guest! We look forward to accommodating you again in the future <br>
 Stay connected with us for te latest offers
+
+User that booked this room: <?php echo "<br>" $actual_data['username']; ?>
 <?php //var_dump($proba); ?>
 <?php// var_dump($booked[0]) ?>
 <?php //var_dump($room) ?>

@@ -18,6 +18,7 @@ class Room extends CI_Controller
 		$data['room']=$this->room_model->get_room_by_id($room_id);
 		$data['room_pictures']=$this->room_model->get_room_pictures($room_id);
 		$hotel_id=$this->room_model->get_hotel_id($room_id);
+		$data['booked_rooms'] = $this->room_model->books_by_room($room_id);
 		$data['hotel_action']=$this->hotel_model->get_actions($hotel_id[0]['room_hotel']);
 		$this->load->view('room',$data);
 		// $data['room_facilities']=$this->room_model->get_room_facilities();
@@ -250,7 +251,8 @@ class Room extends CI_Controller
 		}
 		if($data['book_errors']['succes']===true) {
 			$data['test']="";
-			$this->room_model->add_booked_room($room_id,$from,$to,$packet);
+			$user_id=$this->session->userdata['id_usera'];
+			$this->room_model->add_booked_room($room_id,$from,$to,$packet,$user_id);
 		}
 		else {
 			$data['test']= "nije uspeo";
@@ -261,7 +263,7 @@ class Room extends CI_Controller
 		$data['room_pictures']=$this->room_model->get_room_pictures($room_id);
 		$hotel_id=$this->room_model->get_hotel_id($room_id);
 		$data['hotel_action']=$this->hotel_model->get_actions($hotel_id[0]['room_hotel']);
-
+		$data['booked_rooms'] = $this->room_model->books_by_room($room_id);
 		$this->load->view('room',$data);
 
 	}
@@ -269,11 +271,13 @@ class Room extends CI_Controller
 	 {
 	 	$this->load->model('room_model');
 	 	$this->load->model('hotel_model');
+	 	$this->load->model('users_model');
 	 	$data['booked'] = $this->room_model->get_last_booked();
 	 	$booked = $data['booked'][0];
 	 	$data['room'] = $this->room_model->get_room_by_id($booked['room_id']);
 	 	$data['action'] = $this->hotel_model ->get_actions($data['room']['room_hotel']);
 	 	$data['hotel'] = $this->hotel_model -> get_hotel_by_id($data['room']['room_hotel']);
+	 	$data['user'] = $this->users_model->get_user_by_id($booked['id_user']);
 	 	$data['actual_data'] = array();
 	 	$start = strtotime($booked['from']);
 		$end = strtotime($booked['to']);
@@ -288,7 +292,8 @@ class Room extends CI_Controller
 	 		'hotel' =>$data['hotel'][0]['ime'],
 	 		'room' =>$data['room']['room_name'],
 	 		'days'=>$days_between,
-	 		'cost'=>$cost);
+	 		'cost'=>$cost,
+	 		'username'=>$data['user'][0]['username']);
 	 	}
 	 	else {
 	 		$data['proba'] = false;
@@ -324,7 +329,8 @@ class Room extends CI_Controller
 	 		'hotel' =>$data['hotel'][0]['ime'],
 	 		'room' =>$data['room']['room_name'],
 	 		'days'=>$days_between,
-	 		'cost'=>$cost );
+	 		'cost'=>$cost,
+	 		'username'=>$data['user'][0]['username'] );
 
 	 	}
 

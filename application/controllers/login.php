@@ -64,13 +64,17 @@ class Login extends CI_Controller
 	public function redirecting(){
 		$uloga=$this->session->userdata['uloga'];
 		if($uloga==1){
-			$this->load->view('admin');
+			$this->load->model('users_model');
+			$data['moderators'] = $this->users_model->get_all_moderators();
+			$this->load->view('admin',$data);
 		}
 		if($uloga==2){
 			$this->show_moderator();
 		}
 		if($uloga==3){
-			$this->load->view('korisnik');
+			$this->load->model('room_model');
+   			$data['pictures'] = $this->room_model->get_slider_pictures();
+    		$this->load->view('index_view',$data);
 		}
 	}
 

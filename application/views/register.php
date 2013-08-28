@@ -40,7 +40,7 @@
               <li><a href="<?php echo base_url();?>room/show_rooms/1" >Rooms</a>
                 
               </li>
-             <li><a href="services.html">Services</a></li>
+             
               
 
                
@@ -54,7 +54,9 @@
                 echo ("<li><a href='".$base."main/logout'>Logout</a>");
               }
               else{
-                echo ("<li><a href='".$base."login/show_login'>Log in</a>");
+                echo ("<li><a href='".$base."login/show_login'>Log in</a></li>");
+                 echo ("<li><a href='".$base."register/show_register'>Register</a></li>");
+                
               } ?>
               
           
@@ -86,7 +88,7 @@
     
     <!-- Begin Content -->
     <div class="content">
-      <h3>Register</h3>
+      <h3>Register page</h3>
      
       <br />
       <!-- Begin Form -->
@@ -94,10 +96,15 @@
         <div id="contact-form"> 
           
           <!--begin:notice message block-->
-          <div id="note"></div>
+          <div id="note">
+            <?php  echo validation_errors();?>
+            <?php if(!empty($message)) {
+              echo $message;
+            } ?>
+          </div>
           <!--begin:notice message block-->
           
-          <form id="" method="post" action="" >
+          <form form method="post" action="<?php echo base_url() ?>register/register_valid" enctype="multipart/form-data" >
            <p>
                 <label for="name"></label>
                 <br />
@@ -109,10 +116,25 @@
                Password <input class="required inpt" type="password" name="password" id="password" value="" />
               </p>
               <p>
-                <label for="name"></label>
+                <label for="repassword"></label>
                 
 
                Repeat password <input class="required inpt" type="password" name="repassword" id="repassword" value="" />
+              </p>
+              <p>
+                 <label for="tel"></label>
+                <br />
+              Tel:<input class="required inpt" type="text" name="tel" id="tel" value="" autocomplete="off"/>
+              </p>
+               <p>
+                 <label for="mail"></label>
+                <br />
+              E-mail:<input class="required inpt" type="text" name="mail" id="mail" value="" autocomplete="off"/>
+              </p>
+               <p>
+                 <label for="address"></label>
+                <br />
+              Adress:<input class="required inpt" type="text" name="address" id="address" value="" autocomplete="off"/>
               </p>
                <a href="<?php echo base_url();?>login/show_login">Back to login</a>
               <br>

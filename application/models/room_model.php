@@ -121,12 +121,13 @@ class Room_model extends CI_Model{
 				 WHERE room_id='$room_id' "); 
 		return $query->result_array();
 	}
-	public function add_booked_room($room_id,$from,$to,$packet) {
+	public function add_booked_room($room_id,$from,$to,$packet,$user_id) {
 		$data = array(
 		   'room_id' => $room_id ,
 		   'from' => $from ,
 		   'to' => $to ,
 		   'packet' => $packet ,
+		   'id_user'=> $user_id
 		);
 		$this->db->insert('room_booked', $data); 
 	}
@@ -140,6 +141,19 @@ class Room_model extends CI_Model{
 		$data=$query->result_array();
 		$sql = $this->db->get_where('room_booked', array('book_id' => $data[0]['book_id']));
 		return $sql->result_array();
+	}
+	public function add_slider_picture($pathname) {
+		$query = "INSERT INTO main_slider (slider_picture) 
+				VALUES ('$pathname')";
+		$this->db->query($query);
+	}
+	public function get_slider_pictures() {
+		$query = $this->db->query("SELECT *
+									FROM main_slider");
+		return $query->result_array();
+	}
+	public function delete_slider($id_slider) {
+		$this->db->delete('main_slider', array('id_slider' => $id_slider)); 
 	}
 
 

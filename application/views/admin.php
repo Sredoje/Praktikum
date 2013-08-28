@@ -47,12 +47,13 @@ if(!isset($this->session->userdata['uloga'])||$this->session->userdata['uloga']!
               <li><a href="<?php echo base_url();?>room/show_rooms/1" >Rooms</a>
                 
               </li>
-             <li><a href="services.html">Services</a></li>
+             
               
 
                
-              
+               
               <li><a href="<?php echo base_url();?>main/show_contact" >Contact</a></li>
+            
               <?php
               $base=base_url();
                if(isset($this->session->userdata['je_logovan'])&&$this->session->userdata['je_logovan']==1){
@@ -61,7 +62,8 @@ if(!isset($this->session->userdata['uloga'])||$this->session->userdata['uloga']!
                 echo ("<li><a href='".$base."main/logout'>Logout</a>");
               }
               else{
-                echo ("<li><a href='".$base."login/show_login'>Log in</a>");
+                echo ("<li><a href='".$base."login/show_login'>Log in</a></li>");
+                 echo ("<li><a href='".$base."register/show_register'>Register</a></li>");
               } ?>
               
           
@@ -70,7 +72,7 @@ if(!isset($this->session->userdata['uloga'])||$this->session->userdata['uloga']!
                 
               
               <?php if(isset($this->session->userdata['je_logovan'])&&$this->session->userdata['uloga']==1){
-                echo  "<li><a href='".$base."main/show_admin' class='selected'>Admin</a>";
+                echo  "<li><a href='".$base."admin/show_admin' class='selected'>Admin</a>";
 
                } ?>
                <?php if(isset($this->session->userdata['je_logovan'])&&$this->session->userdata['uloga']==2){
@@ -105,7 +107,7 @@ if(!isset($this->session->userdata['uloga'])||$this->session->userdata['uloga']!
           <div><form method="post" action="<?php echo base_url() ?>admin/moderator_valid" enctype="multipart/form-data">
             Moderator name:<br>
             
-            <input type="text" name="mod_name"><br>
+            <input type="text" name="mod_name" autocomplete="off"><br>
             Moderator password:<br>
             <input type="password" name="mod_pass">
             <br>
@@ -142,12 +144,19 @@ if(!isset($this->session->userdata['uloga'])||$this->session->userdata['uloga']!
       <div class="toggle">
         <h2 class="trigger">+Add main slider pictures</h2>
         <div class="togglebox">
-          <div><form>
-            Moderator name:<br>
-            <select><option>Moderator1</option><option>Moderator2</option><option>Moderator3</option></select><br>
+          <div><form method="post" action="<?php echo base_url() ?>admin/do_upload2" enctype="multipart/form-data">
+            Pictures:<br>
+            <?php if(!empty($slider_pictures)) {
+              foreach ($slider_pictures as $picture) {
+                 echo "<img src='".base_url()."img/".$picture['slider_picture']."' width='320' height='125'><br><a href='".base_url()."admin/delete_slider/".$picture['id_slider']."' class='deletehref btn btn-info' >Delete</a><br>";
+              }
+            } ?>
+            <input type="file" name="slider_image">
            
             <br>
             <input type="submit" class="btn btn-info" value="Add picture"></input>
+            <br>
+            *Keep in mind that image will be resized to 960x360!
 
             <br>
           </form>
@@ -160,12 +169,21 @@ if(!isset($this->session->userdata['uloga'])||$this->session->userdata['uloga']!
       <div class="toggle">
         <h2 class="trigger">+Statistics</h2>
         <div class="togglebox">
-          <div><form>
+          <div><form method="post" action="<?php echo base_url() ?>ajax/show_stats" enctype="multipart/form-data">
             Moderator name:<br>
-            <select><option>Moderator1</option><option>Moderator2</option><option>Moderator3</option></select><br>
+            <select id="stats" name="stats">
+
+              <?php foreach ($moderators as $moderator) {
+                echo "<option value='".$moderator['id_user']."'>".$moderator['username']."</option>";
+              } ?>
+            
+            </select><br>
            
             <br>
-            <input type="submit" class="btn btn-info" value="Add picture"></input>
+            <table>
+              <thead><tr><td>Hotels</td><td>Rooms</td><td>Avg. Min price</td><td>Avg. Med price</td><td>Avg. Full price</td></tr></thead>
+              <tbody><tr><td class="hotel_number"></td><td class="rooms_number"></td><td class="avg_min_price"></td><td class="avg_med_price"></td><td class="avg_full_price"></td></tr></tbody>
+            </table>
 
             <br>
           </form>
@@ -174,6 +192,7 @@ if(!isset($this->session->userdata['uloga'])||$this->session->userdata['uloga']!
 
         
       </div>
+
      
        
      
@@ -217,14 +236,16 @@ if(!isset($this->session->userdata['uloga'])||$this->session->userdata['uloga']!
 </div>
 <!-- End Footer -->
 <script type="text/javascript">
-$('#remove_moderator').change(function(){
+
+
+$('#stats').change(function(){
         $.ajax({
     // the URL for the request
-    url: '<?php echo base_url()."ajax/get_all_moderators" ?>',
+    url: '<?php echo base_url()."ajax/show_stats" ?>',
  
     // the data to send (will be converted to a query string)
     data: {
-        id: $('#remove_moderator').val()
+        id: $('#stats').val()
     },
  
     // whether this is a POST or GET request
@@ -236,18 +257,35 @@ $('#remove_moderator').change(function(){
     // code to run if the request succeeds;
     // the response is passed to the function
     success: function( json ) {
-      console.log( json );
-      // var test=document.createElement("button");
-      //     $('.room_pictures_space').html("");
-      //   for(var i = 0 ; i < json.room.length ; i ++) {
-      //      var link="<img src='<?php echo base_url() ?>img/"+json.room[i].picture_path+"' style='width:100px;'/><br><a href='<?php echo base_url() ?>room/delete_room_picture/"+json.room[i].room_id+"/"+json.room[i].picture_path+"' class='deletehref btn btn-info' >Delete</a><br>";
-      //     $('.room_pictures_space').append(link);
+      console.log(json);
+      var number_of_hotels = 0;
+      
+      for(var i = 0 ; i < json.hotels.length ; i ++) {
+          number_of_hotels ++ ;
         }
+        var number_of_rooms = 0;
+        var min_price = 0;
+        var med_price = 0;
+        var ful_price = 0;
+
+      for(var i = 0 ; i < json.rooms.length ; i ++) {
+          number_of_rooms ++ ;
+          min_price += parseInt(json.rooms[i].mini_price);
+          med_price += parseInt(json.rooms[i].medium_price);
+          ful_price += parseInt(json.rooms[i].full_price);
+
+        }
+        $('.hotel_number').html(''+number_of_hotels);
+        $('.rooms_number').html(''+number_of_rooms);
+        $('.avg_min_price').html(min_price/number_of_rooms+"$");
+        $('.avg_med_price').html(med_price/number_of_rooms+"$");
+        $('.avg_full_price').html(ful_price/number_of_rooms+"$");
+
     },
     // code to run if the request fails; the raw request and
     // status codes are passed to the function
     error: function( xhr, status ) {
-        alert( "Sorry, there was a problem!" );
+
     },
  
     // code to run regardless of success or failure
@@ -256,6 +294,7 @@ $('#remove_moderator').change(function(){
     }
 });
     });
+$("#stats").change();
 </script>
 </body>
 </html>

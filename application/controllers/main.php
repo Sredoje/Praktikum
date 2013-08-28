@@ -5,7 +5,10 @@ class Main extends CI_Controller {
 
 	public function index()
 	{
-		$this->load->view('index_view');
+		
+		$this->load->model('room_model');
+		$data['pictures'] = $this->room_model->get_slider_pictures();
+		$this->load->view('index_view',$data);
 	}
 	//prikazuje login_view
 	

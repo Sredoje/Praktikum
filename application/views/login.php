@@ -40,11 +40,11 @@
               <li><a href="<?php echo base_url();?>room/show_rooms/1" >Rooms</a>
                 
               </li>
-             <li><a href="services.html">Services</a></li>
+             
               
 
                
-              
+               
               <li><a href="<?php echo base_url();?>main/show_contact" >Contact</a></li>
                <?php
               $base=base_url();
@@ -54,7 +54,8 @@
                 echo ("<li><a href='".$base."main/logout'>Logout</a>");
               }
               else{
-                echo ("<li><a href='".$base."login/show_login'>Log in</a>");
+                echo ("<li><a href='".$base."login/show_login'>Log in</a></li>");
+                 echo ("<li><a href='".$base."register/show_register'>Register</a></li>");
               } ?>
               
           
@@ -63,7 +64,7 @@
                 
               
               <?php if(isset($this->session->userdata['je_logovan'])&&$this->session->userdata['uloga']==1){
-                echo  "<li><a href='".$base."main/show_admin'>Admin</a>";
+                echo  "<li><a href='".$base."admin/show_admin'>Admin</a>";
 
                } ?>
                <?php if(isset($this->session->userdata['je_logovan'])&&$this->session->userdata['uloga']==2){
@@ -107,8 +108,8 @@
               <p>
                 <label for="email"></label>
                 <br />
-               Password <input class="required inpt" type="password" name="password" id="password" value="" />
-               <a href="<?php echo base_url();?>main/show_register">Dont have account? Register here</a>
+               Password <input class="required inpt" type="password" name="password" id="password" value="" autocomplete="off" />
+
 
               </p>
               
